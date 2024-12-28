@@ -8,6 +8,7 @@ THE DATABASE WE ARE USING IS  : MYSQL
 
 
 
+
 SESSION 1
 _________
 
@@ -20,7 +21,8 @@ ANS) A TABLE IS NOTHING BUT A WAY OF STORING THE DATA IN THE FORM OF ROWS AND CO
 
 -> TABLE IS SIMILAR TO EXCEL SPREADSHEET
 
-_____________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________
+
 
 Q) WHEN A EXCEL SPREADSHEET CAN HOLD THE DATA SAME WAY THEN WHY DO WE NEED THESE DATABASES AND TABLES
 ANS) 
@@ -36,14 +38,16 @@ AND BORROWING DATES. IF YOU WANT TO KNOW WHO BORROWED YOUR RED CAR, YOU JUST ASK
 RIGHT AWAY!
 
 DATABASES ARE LIKE MAGIC TOY ORGANIZERS THAT HELP WHEN THINGS GET BIG AND COMPLICATED!
-_____________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________
+
 
 
 
 -> THE DATABASE PROVIDES US THE CAPABILITY TO ACCESS AND MANIPULATE THIS DATA.
 
 
-_____________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________
+
 
 --> KIND OF DATA BASES THAT WE HAVE 
 MOSTLY THESE DATA BASES CAN BE GROUPED INTO 2 CATEGORIES 
@@ -90,7 +94,8 @@ DATA IS STORED AS NODES (ENTITIES) AND EDGES (RELATIONSHIPS BETWEEN ENTITIES).
 
 EXAMPLE: A NODE MIGHT REPRESENT A "PERSON" WITH PROPERTIES LIKE "NAME" AND "AGE," AND AN EDGE MIGHT REPRESENT A "FRIEND" RELATIONSHIP BETWEEN TWO NODES.
 
-_____________________________________________________________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________________________________________________________________________________
+
 
 
 -> SQL(STRUCTURED QUERY LANGUAGE)
@@ -106,5 +111,2047 @@ MYSQL IS AN OPEN-SOURCE DATABASE MANAGEMENT SYSTEM THAT USES SQL TO STORE AND MA
 
 
 -> A QUERY IN SQL IS A REQUEST TO PERFORM AN OPERATION (LIKE RETRIEVING OR MODIFYING DATA) IN A DATABASE.
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+=> INSTALLATION
+ 
+GOORMIDE
+CREATE A CONTAINER
+mysql-ctl cli;
+show databases; -> IS TO GET A LIST OF DATABASES WHICH ARE ALREADY PRESENT
+create database databasename; -> IT IS USED TO CREATE OUR OWN DATABASE
+drop database databasename; -> IT IS USED TO DELETE A DATABASE
+USE databasename -> IS USED TO SELECT A SPECIFIC DATABASE TO WORK WITH. AFTER 
+                    EXECUTING THIS COMMAND, ALL SUBSEQUENT SQL STATEMENTS WILL 
+                    BE EXECUTED WITHIN THE CONTEXT OF THE SPECIFIED DATABASE 
+                    UNTIL ANOTHER DATABASE IS SELECTED OR THE SESSION ENDS.
+SELECT database(); -> IS USED TO DETERMINE THE NAME OF THE CURRENTLY SELECTED 
+                      DATABASE IN THE CURRENT SESSION. IF NO DATABASE HAS BEEN 
+                      SELECTED, IT WILL RETURN NULL.
+CREATE TABLE tablename -> USED TO CREATE A TABLE IN  DATABASE
+( 
+   name  varchar(50),
+   age   INT,
+   salary INT
+);
+
+
+int for numeric
+varchar for string upto 255 characters
+
+
+show tables; -> IS USED TO SEE LIST OF ALL THE TABLES PRESENT IN THE CURRENTLY SELECTED DATABASE.
+describe tablename; -> IS USED TO RETRIEVE THE STRUCTURE  OF A SPECIFIED TABLE.
+drop table tablename; -> IS USED TO DELETE AN EXISTING TABLE FROM THE DATABASE.
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+SESSION 2
+_________
+
+
+CRUD Operations 
+
+CREATE  ->  INSERT STATEMENTS   ADDS NEW RECORDS TO A TABLE.
+READ    ->  SELECT STATEMENTS   RETRIEVES DATA FROM A TABLE.
+UPDATE  ->  UPDATE STATEMENTS   MODIFIES EXISTING RECORDS IN A TABLE.
+DELETE  ->  DELETE STATEMENTS   REMOVES RECORDS FROM A TABLE.
+ 
+
+-> CREATION OF TABLE AND INSERT STATEMENTS
+EMPLOYEE TABLE
+WE PREFER TO HIRE FROM BANGALORE
+
+
+
+CREATE TABLE employee
+(
+      firstname varchar(20),
+      middlename varchar(20),
+      lastname varchar(20),
+      age int,
+      salary int,
+      location varchar(20)
+);
+
+HOW TO SEE DATA INSIDE A TABLE -> select * from tablename;
+TO INSERT VALUES INTO TABLES -> INSERT INTO tablename VALUES();
+
+INSERT INTO employee(firstname,middlename,lastname,age,salary,location) VALUES ('kapil','kumar','sharma',28,10000,'bangalore');
+-> THIS IS GOOD PRACTICE
+
+INSERT INTO employee VALUES ('satish','kumar','sharma',28,10000,'bangalore');
+-> THIS IS NOT RECOMMEND
+
+INSERT INTO employee(firstname,lastname,age,salary,location) VALUES ('rajesh','sharma',28,20000,'bangalore');
+-> HERE WE HAVE NOT GIVEN THE VALUE MIDDLENAME SO IN THE PLACE OF MIDDLENAME WE WILL GET NULL 
+
+INSERT INTO employee VALUES ('rajesh','sharma',28,20000,'bangalore');
+-> IF WE GIVE LIKE THIS WE WILL GET ERROR
+
+INSERT INTO employee(firstname,middlename,lastname,age,salary,location) VALUES ('kapil','kumar','sharma',28,10000,'bangalore'),('satish','kumar','sinha',30,20000,'bangalore');
+
+
+'  '  '  -> "  '  "
+         -> '  \' '
+
+
+
+
+NULL
+____
+
+
+CREATE TABLE employee
+(
+      firstname varchar(20) NOT NULL,
+      middlename varchar(20),
+      lastname varchar(20) NOT NULL,
+      age int NOT NULL,
+      salary int NOT NULL,
+      location varchar(20) NOT NULL
+);
+
+THE MIDDLENAME CAN ACCEPT NULL VALUES, MEANING IT'S OPTIONAL TO PROVIDE A VALUE.
+OTHER COLUMNS LIKE FIRSTNAME, LASTNAME, AGE, SALARY, AND LOCATION CANNOT BE NULL DUE TO THE NOT NULL CONSTRAINT.
+
+
+
+
+
+DEFAULT VALUES
+______________
+
+
+CREATE TABLE employee
+(
+      firstname varchar(20) NOT NULL,
+      middlename varchar(20),
+      lastname varchar(20) NOT NULL,
+      age int NOT NULL,
+      salary int NOT NULL,
+      location varchar(20) DEFAULT 'bangalore'
+);
+
+IS USED TO SPECIFY A VALUE THAT WILL BE AUTOMATICALLY INSERTED INTO A COLUMN IF NO VALUE IS PROVIDED DURING AN 
+INSERT OPERATION. IN YOUR TABLE, THE LOCATION COLUMN WILL AUTOMATICALLY HAVE THE VALUE 'BANGALORE' IF NO VALUE 
+IS SPECIFIED WHEN INSERTING A RECORD.
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 3  -> PRIMARY KEY VS UNIQUE KEY
+________________________________________
+
+
+
+
+PRIMARY KEY
+___________
+
+CREATE TABLE employee
+(
+      id int PRIMARY KEY,
+      firstname varchar(20) NOT NULL,
+      middlename varchar(20),
+      lastname varchar(20) NOT NULL,
+      age int NOT NULL,
+      salary int NOT NULL,
+      location varchar(20) NOT NULL DEFAULT 'bangalore'
+);
+
+
+INSERT INTO employee(id,firstname,lastname,age,salary) VALUES (1,'rajesh','sharma',28,10000);
+
+-> A PRIMARY KEY ENSURES THAT THE VALUES IN THE ID COLUMN ARE UNIQUE FOR EACH ROW. NO TWO ROWS IN THE EMPLOYEE TABLE CAN HAVE THE SAME ID VALUE.
+-> A PRIMARY KEY COLUMN CANNOT HAVE NULL VALUES. THIS ENSURES THAT EVERY EMPLOYEE WILL HAVE A UNIQUE IDENTIFIER (THE ID) WHICH CANNOT BE LEFT EMPTY.
+
+
+
+
+
+
+
+AUTO INCREMENT
+______________
+
+CREATE TABLE employee
+(
+      id int AUTO_INCREMENT,
+      firstname varchar(20) NOT NULL,
+      middlename varchar(20),
+      lastname varchar(20) NOT NULL,
+      age int NOT NULL,
+      salary int NOT NULL,
+      location varchar(20) NOT NULL DEFAULT 'bangalore',
+      PRIMARY KEY(id)
+);
+
+-> "IS USED WITH A COLUMN TO AUTOMATICALLY GENERATE A UNIQUE VALUE WHENEVER A NEW ROW IS INSERTED INTO A 
+    TABLE. THIS IS COMMONLY APPLIED TO PRIMARY KEY COLUMNS TO ENSURE THAT EACH RECORD HAS A UNIQUE IDENTIFIER."
+ 
+
+
+
+
+
+UNIQUE KEY
+__________
+
+UNIQUE KEY CAN HOLD NULL 
+
+FOR EXAMPLE IN MYSQL A UNIQUE KEY CAN HOLD ANY NUMBER OF NULL VALUES
+
+IN SOME OF THE OTHER FAMOUS DATABASES UNIQUE KEY CAN HOLD ONLY ONE NULL
+
+SO THE PURPOSE OF UNIQUE KEY IS TO MAKE SURE THE VALUES DO NOT DUPLICATE 
+
+WE CAN HAVE ONLY ONE PRIMARY KEY BUT MULTIPLE UNIQUE KEYS  IN A TABLE 
+
+
+
+EXTRA PRIMARY KEY CONCEPT
+_________________________
+
+CREATE TABLE employee
+(
+    firstname varchar(20) PRIMARY KEY, 
+    lastname varchar(20) PRIMARY KEY,  
+    age int NOT NULL,
+);
+
+THIS IS INCORRECT BECAUSE YOU'RE ATTEMPTING TO ASSIGN TWO SEPARATE PRIMARY KEYS TO FIRSTNAME AND LASTNAME. 
+YOU SHOULD EITHER:
+DEFINE A SINGLE PRIMARY KEY ON ONE COLUMN, OR
+DEFINE A COMPOSITE PRIMARY KEY ACROSS BOTH FIRSTNAME AND LASTNAME TOGETHER.
+
+
+CREATE TABLE employee
+(
+      firstname varchar(20) NOT NULL,
+      lastname varchar(20) NOT NULL,
+      age int NOT NULL,
+      PRIMARY KEY(firstname,lastname)
+);
+
+INSERT INTO employee VALUES('kapil','sharma',28); 
+
+INSERT INTO emplyoee VALUES('kapil','sinha',28);
+THIS IS ALLOWED
+
+INSERT INTO emplyoee VALUES('kapil','sharma',28);
+THIS IS NOT ALLOWED
+
+
+
+EXTRA UNIQUE KEY CONCEPT
+_________________________
+
+CREATE TABLE employee
+(
+    firstname varchar(20) UNIQUE,  
+    lastname varchar(20) UNIQUE,   
+    age int 
+);
+
+THIS IS CORRECT 
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+SESSION 4  -> UPDATE,DELETE,ALTER,DDL VD DML
+____________________________________________
+
+
+CRUD Operations 
+
+CREATE  ->  INSERT STATEMENTS   ADDS NEW RECORDS TO A TABLE.
+READ    ->  SELECT STATEMENTS   RETRIEVES DATA FROM A TABLE.
+UPDATE  ->  UPDATE STATEMENTS   MODIFIES EXISTING RECORDS IN A TABLE.
+DELETE  ->  DELETE STATEMENTS   REMOVES RECORDS FROM A TABLE.
+
+
+
+CREATE TABLE employee
+(
+      id int PRIMARY KEY,
+      firstname varchar(20) NOT NULL,
+      middlename varchar(20),
+      lastname varchar(20) NOT NULL,
+      age int NOT NULL,
+      salary int NOT NULL,
+      location varchar(20) NOT NULL DEFAULT 'bangalore'
+);
+
+
+INSERT INTO employee(id,firstname,lastname,age,salary) VALUES (1,'rajesh','sharma',28,10000);
+
+
+INSERT INTO employee(id,firstname,lastname,age,salary) VALUES (2,'kapil','sharma',30,20000);
+
+
+INSERT INTO employee(id,firstname,lastname,age,salary) VALUES (3,'Maneesh','sharma',32,30000);
+
+
+SELECT
+______
+
+SELECTING ALL COLUMNS(IT SELECTS EVERY COLUMN)
+select * from employee;
+
+SELECTING SPECIFYING COLUMNS
+select firstname,lastname from employee;
+
+
+select * from employee where age > 29;
+IT WILL ONLY GIVE FEW ROWS WHICH WILL HAVE AGE > 29
+
+select * from employee where firstname='Maneesh';
+IT WILL ONLY GIVE FEW ROWS WHICH WILL HAVE FIRSTNAME AS MANEESH
+
+select * from employee where firstname='maneesh';
+IN THE TABLE WE ARE HAVING M BUT I AM TAKING SMALL STILL IT WORKS 
+BY DEFAULT IT IS CASE INSENSITIVE
+
+IF WE WANT TO MAKE IT CASE SENSITIVE USE AS BELOW
+select * from employee where binary firstname='maneesh';
+IT WILL NOT WORK 
+select * from employee where binary firstname='Maneesh';
+IT WILL WORK 
+
+-> ALIAS 
+select firstname as name,lastname as surname from employee;
+AFTER PRINTING TABLE , NAME TAKES FIRSTNAME PLACE AND SURNAME TAKES LASTNAME PLACE
+
+
+UPDATE
+______
+
+update employee set lastname = 'sinha' where firstname = 'Maneesh';
+
+update employee set location = 'Hyderabad' where firstname = 'kapil';
+
+update employee set location = 'Hyderabad';
+IT WILL DO THE UPDATE TO THE ENTIRE TABLE
+
+update employee set salary = salary+5000;
+
+update employee set location = 'bangalore' where firstname = 'Maneesh' and lastname = 'Sinha';
+
+
+DELETE
+______
+
+delete from employee where id=3;
+
+delete from employee;
+IN THIS CASE EVERYTHING WILL BE DELETED
+
+
+
+ALTER COMMAND
+_____________
+
+ALTER IS TO ALTER THE STRUCTURE OF THE TABLE 
+
+alter table employee add column jobtitle varchar(50);
+
+alter table employee drop column jobtitle;
+
+alter table employee modify column firstname varchar(30);
+
+alter table employee drop primary key;
+
+alter table employee add primary key(id);
+
+
+
+DDL VS DML
+__________
+
+
+DATA DEFINITION LANGUAGE -> DEALS WITH TABLE STRUCTURE
+CREATE,ALTER,DROP -> DDL COMMANDS
+
+DATA MANIPULATION LANGUAGE -> HERE WE DEAL WITH THE DATA DIRECTLY.
+INSERT,UPDATE,DELETE -> DML COMMANDS 
+
+
+
+delete from employee; -> REMOVES ALL RECORDS , DML COMMAND
+IT DELETES THE RECORDS ONE BY ONE 
+
+
+truncate table employee; -> ALSO REMOVES ALL RECORDS BUT THIS IS DDL COMMAND
+TRUNCATE INTERNALLY DROPS THE TABLE.
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+SESSION 5  -> FOREIGN KEY
+_________________________
+
+FOREIGN KEY CONSTRAINT:
+
+
+Student Table:
+______________
+
+
+CREATE TABLE students
+(
+student_id int AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternate_phone varchar(15),
+enrollment_date TIMESTAMP NOT NULL,
+years_of_exp int NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+primary key(student_id),
+unique key(student_email)
+);
+
+
+
+-> SEED DATA REFERS TO THE INITIAL SET OF DATA THAT IS INSERTED INTO A DATABASE TO 
+   PROVIDE A BASELINE FOR DEVELOPMENT, TESTING, OR DEMONSTRATION PURPOSES.
+
+
+
+Seed Data
+_________
+
+insert into student(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('rohit','sharma','rohit@gmail.com','9191919191',6,'walmart','05-02-2021','linkedin','bangalore');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('virat','kohli','virat@gmail.com','9292929292',3,'flipkart','05-02-2021','linkedin','hyderabad');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('shikar','dhawan','shikar@gmail.com','9393939393',12,'amazon','19-02-2021','google','bangalore');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('rahul','dravid','rahul@gmail.com','9494949494',8,'walmart','19-02-2021','quora','chennai');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('kapil','dev','kapil@gmail.com','9294919191',15,'microsoft','05-02-2021','friend','pune'),
+('brain','lara','brain@gmail.com','9394919191',18,'tcs','05-02-2021','youtube','pune'),
+('carl','hooper','carl@gmail.com','9293519191',20,'wipro','19-02-2021','youtube','pune'),
+('saurabh','ganguly','saurabh@gmail.com','9291975191',14,'wipro','19-02-2021','google','chennai');
+
+
+
+
+SELECT Statement;
+_________________
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students;
+
+
+Courses Table:
+_____________
+
+create table courses
+(
+course_id INT NOT NULL,
+course_name varchar(30) NOT NULL,
+course_duration_in_months INT NOT NULL,
+course_fee INT NOT NULL,
+PRIMARY KEY(course_id)
+);
+
+
+Seed Data
+_________
+
+insert into courses values (1,'big data',6,50000);
+insert into courses values (2,'web development',3,20000);
+insert into courses values (3,'data science',6,40000);
+insert into courses values (4,'devops',1,10000);
+
+
+drop table students;
+
+
+Student Table:
+______________
+
+
+create table students(
+student_id INT AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+student_phone varchar(15) NOT NULL,
+student_alternate_phone varchar(15),
+enrollment_date TIMESTAMP NOT NULL,
+selected_course INT NOT NULL DEFAULT 1,
+years_of_exp INT NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+PRIMARY KEY(student_id),
+UNIQUE KEY(student_email)
+);
+
+
+
+
+
+insert into students(student_fname,student_lname,student_email,student_phone,selected_course,years_of_exp,student_company,batch_date,source_of_joining,location) values('rohit','sharma','rohit@gmail.com','9191919191',2,6,'walmart','05-02-2021','linkedin','bangalore');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('virat','kohli','virat@gmail.com','9292929292',3,'flipkart','05-02-2021','linkedin','hyderabad');
+
+insert into students(student_fname,student_lname,student_email,student_phone,selected_course,years_of_exp,student_company,batch_date,source_of_joining,location) values('shikar','dhawan','shikar@gmail.com','9393939393',3,12,'amazon','19-02-2021','google','bangalore');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('rahul','dravid','rahul@gmail.com','9494949494',8,'walmart','19-02-2021','quora','chennai');
+
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('kapil','dev','kapil@gmail.com','9294919191',15,'microsoft','05-02-2021','friend','pune'),
+('brain','lara','brain@gmail.com','9394919191',18,'tcs','05-02-2021','youtube','pune'),
+('carl','hooper','carl@gmail.com','9293519191',20,'wipro','19-02-2021','youtube','pune'),
+('saurabh','ganguly','saurabh@gmail.com','9291975191',14,'wipro','19-02-2021','google','chennai');
+
+insert into students(student_fname,student_lname,student_email,student_phone,selected_course,years_of_exp,student_company,batch_date,source_of_joining,location) values('jaspreet','bumrah','jaspreet@gmail.com','9595959595',5,13,'walmart','19-02-2021','quora','chennai');
+-> THERE IS NO COURSE WITH ID 5 , IF WE INSERT THIS IT GETS INSERTED , HERE COMES THE CONCEPT OF FOREIGN KEY 
+
+
+SELECT Statement;
+__________________
+
+select student_id,enrollment_date,selected_course,student_fname,years_of_exp,student_company,batch_date,source_of_joining,location from students;
+
+
+drop table students;
+
+
+
+Creating students Table with Foreign Key constraint:
+____________________________________________________
+
+
+
+
+create table students
+(
+student_id INT AUTO_INCREMENT,
+student_fname varchar(30) NOT NULL,
+student_lname varchar(30) NOT NULL,
+student_mname varchar(30),
+student_email varchar(30) NOT NULL,
+sudent_phone varchar(15) NOT NULL,
+student_alternate_phone varchar(15),
+enrollment_date TIMESTAMP NOT NULL,
+selected_course INT NOT NULL DEFAULT 1,
+years_of_exp INT NOT NULL,
+student_company varchar(30),
+batch_date varchar(30) NOT NULL,
+source_of_joining varchar(30) NOT NULL,
+location varchar(30) NOT NULL,
+PRIMARY KEY(student_id),
+UNIQUE KEY(student_email),
+FOREIGN KEY(selected_course) REFERENCES courses(course_id)
+);
+
+
+parent - courses
+child - students
+
+
+
+insert into students(student_fname,student_lname,student_email,student_phone,selected_course,years_of_exp,student_company,batch_date,source_of_joining,location) values('jaspreet','bumrah','jaspreet@gmail.com','9595959595',5,13,'walmart','19-02-2021','quora','chennai');
+-> THERE IS NO COURSE WITH ID 5 , NOW WE CANNOT INSERT IT 
+
+
+delete from courses where course_id=2;
+-> THIS WILL GIVE AN ERROR BECAUSE THERE IS A FOREIGN KEY CONSTRAINT
+
+delete from courses where course_id=4;
+-> THIS WILL NOT GIVE ANY ERROR BECAUSE THERE IS A FOREIGN KEY CONSTRAINT BUT WE ARE NOT OPTING THE COURSE THAT HAVE THE ID 4.
+
+
+
+
+
+
+
+
+The foreign key constraint is used to prevent actions that would destroy links between two tables.
+
+Fore Key is the field in one table that refers to primary key in another table.
+
+selected_course is foreign key in students table which refers to course_id(primary key) in courses table.
+
+the table with foreign key is called child table and the key with primary key is called reference table or parent table.
+
+constraint are used to limit the type of data that can go into table
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 6  -> DISTINCT,ORDER BY,LIMIT,LIKE 
+__________________________________________
+
+TOPICS THAT ARE GOING TO BE COVERED ARE:
+________________________________________
+
+DISTINCT
+
+ORDER BY
+
+LIMIT
+
+LIKE
+
+
+
+
+
+
+Distinct:
+_________
+
+select DISTINCT location from students;
++-----------+
+| location  |
++-----------+
+| bangalore |
+| chennai   |
+| pune      |
++-----------+
+
+select DISTINCT student_company from students;
++-----------------+
+| student_company |
++-----------------+
+| walmart         |
+| microsoft       |
+| tcs             |
+| wipro           |
++-----------------+
+
+select DISTINCT source_of_joining from students;
++-------------------+
+| source_of_joining |
++-------------------+
+| linkedin          |
+| quora             |
+| friend            |
+| youtube           |
+| google            |
++-------------------+
+
+ORDER BY:
+_________
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students ORDER BY years_of_exp;
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+| student_id | enrollment_date     | student_fname | student_email     | years_of_exp | student_company | batch_date | source_of_joining | location  |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+|          1 | 2022-07-09 00:03:08 | rohit         | rohit@gmail.com   |            6 | walmart         | 05-02-2021 | linkedin          | bangalore |
+|          2 | 2022-07-09 00:03:08 | rahul         | rahul@gmail.com   |            8 | walmart         | 19-02-2021 | quora             | chennai   |
+|          6 | 2022-07-09 00:03:09 | saurabh       | saurabh@gmail.com |           14 | wipro           | 19-02-2021 | google            | chennai   |
+|          3 | 2022-07-09 00:03:09 | kapil         | kapil@gmail.com   |           15 | microsoft       | 05-02-2021 | friend            | pune      |
+|          4 | 2022-07-09 00:03:09 | brain         | brain@gmail.com   |           18 | tcs             | 05-02-2021 | youtube           | pune      |
+|          5 | 2022-07-09 00:03:09 | carl          | carl@gmail.com    |           20 | wipro           | 19-02-2021 | youtube           | pune      |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+
+
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students ORDER BY years_of_exp desc;
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+| student_id | enrollment_date     | student_fname | student_email     | years_of_exp | student_company | batch_date | source_of_joining | location  |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+|          5 | 2022-07-09 00:03:09 | carl          | carl@gmail.com    |           20 | wipro           | 19-02-2021 | youtube           | pune      |
+|          4 | 2022-07-09 00:03:09 | brain         | brain@gmail.com   |           18 | tcs             | 05-02-2021 | youtube           | pune      |
+|          3 | 2022-07-09 00:03:09 | kapil         | kapil@gmail.com   |           15 | microsoft       | 05-02-2021 | friend            | pune      |
+|          6 | 2022-07-09 00:03:09 | saurabh       | saurabh@gmail.com |           14 | wipro           | 19-02-2021 | google            | chennai   |
+|          2 | 2022-07-09 00:03:08 | rahul         | rahul@gmail.com   |            8 | walmart         | 19-02-2021 | quora             | chennai   |
+|          1 | 2022-07-09 00:03:08 | rohit         | rohit@gmail.com   |            6 | walmart         | 05-02-2021 | linkedin          | bangalore |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+
+
+select student_fname from students ORDER BY years_of_exp;
++---------------+
+| student_fname |
++---------------+
+| rohit         |
+| rahul         |
+| saurabh       |
+| kapil         |
+| brain         |
+| carl          |
++---------------+
+
+select student_fname,years_of_exp  from students ORDER BY years_of_exp;
++---------------+--------------+
+| student_fname | years_of_exp |
++---------------+--------------+
+| rohit         |            6 |
+| rahul         |            8 |
+| saurabh       |           14 |
+| kapil         |           15 |
+| brain         |           18 |
+| carl          |           20 |
++---------------+--------------+
+
+select student_fname,years_of_exp  from students ORDER BY years_of_exp desc;
++---------------+--------------+
+| student_fname | years_of_exp |
++---------------+--------------+
+| carl          |           20 |
+| brain         |           18 |
+| kapil         |           15 |
+| saurabh       |           14 |
+| rahul         |            8 |
+| rohit         |            6 |
++---------------+--------------+
+
+
+select student_fname,years_of_exp  from students ORDER BY 2 ;
++---------------+--------------+
+| student_fname | years_of_exp |
++---------------+--------------+
+| rohit         |            6 |
+| rahul         |            8 |
+| saurabh       |           14 |
+| kapil         |           15 |
+| brain         |           18 |
+| carl          |           20 |
++---------------+--------------+
+SORTS THE RESULTS BY THE SECOND COLUMN SPECIFIED IN THE SELECT CLAUSE.
+
+
+
+select student_fname,years_of_exp  from students ORDER BY 1;
++---------------+--------------+
+| student_fname | years_of_exp |
++---------------+--------------+
+| brain         |           18 |
+| carl          |           20 |
+| kapil         |           15 |
+| rahul         |            8 |
+| rohit         |            6 |
+| saurabh       |           14 |
++---------------+--------------+
+
+
+select student_fname,years_of_exp  from students ORDER BY 1 desc;
++---------------+--------------+
+| student_fname | years_of_exp |
++---------------+--------------+
+| saurabh       |           14 |
+| rohit         |            6 |
+| rahul         |            8 |
+| kapil         |           15 |
+| carl          |           20 |
+| brain         |           18 |
++---------------+--------------+
+
+
+select student_fname,years_of_exp  from students ORDER BY years_of_exp,student_fname;
++---------------+--------------+
+| student_fname | years_of_exp |
++---------------+--------------+
+| rohit         |            6 |
+| rahul         |            8 |
+| saurabh       |           14 |
+| kapil         |           15 |
+| brain         |           18 |
+| carl          |           20 |
++---------------+--------------+
+PRIMARY: By years_of_exp in ascending order.
+SECONDARY: Alphabetically by student_fname for ties in years_of_exp.
+
+LIMIT:
+______
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students ORDER BY years_of_exp LIMIT 3;
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+| student_id | enrollment_date     | student_fname | student_email     | years_of_exp | student_company | batch_date | source_of_joining | location  |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+|          1 | 2022-07-09 00:03:08 | rohit         | rohit@gmail.com   |            6 | walmart         | 05-02-2021 | linkedin          | bangalore |
+|          2 | 2022-07-09 00:03:08 | rahul         | rahul@gmail.com   |            8 | walmart         | 19-02-2021 | quora             | chennai   |
+|          6 | 2022-07-09 00:03:09 | saurabh       | saurabh@gmail.com |           14 | wipro           | 19-02-2021 | google            | chennai   |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students ORDER BY years_of_exp desc LIMIT 3;
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
+| student_id | enrollment_date     | student_fname | student_email   | years_of_exp | student_company | batch_date | source_of_joining | location |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
+|          5 | 2022-07-09 00:03:09 | carl          | carl@gmail.com  |           20 | wipro           | 19-02-2021 | youtube           | pune     |
+|          4 | 2022-07-09 00:03:09 | brain         | brain@gmail.com |           18 | tcs             | 05-02-2021 | youtube           | pune     |
+|          3 | 2022-07-09 00:03:09 | kapil         | kapil@gmail.com |           15 | microsoft       | 05-02-2021 | friend            | pune     |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
+
+
+-> WANT TO KNOW WHICH SOURCES LAST 5 CANDIDATES HAVE ENROLLED.
+select source_of_joining from students ORDER BY enrollment_date desc LIMIT 5;
++-------------------+
+| source_of_joining |
++-------------------+
+| friend            |
+| youtube           |
+| youtube           |
+| google            |
+| linkedin          |
++-------------------+
+-> FIRST, IT SORTS THE DATA ACCORDING TO THE ENROLLMENT_DATE IN DESCENDING ORDER.
+   THEN, IT OUTPUTS THE TOP 5 RECORDS FROM THE SORTED RESULTS.
+
+
+select DISTINCT source_of_joining from students ORDER BY enrollment_date desc LIMIT 5;
+-> THIS WONT WORK
+-> REASON WILL BE AVAILABLE IN THE NEXT SESSION 7
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students O
+RDER BY enrollment_date desc LIMIT 1;
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+----------+
+| student_id | enrollment_date     | student_fname | student_email     | years_of_exp | student_company | batch_date | source_of_joining | location |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+----------+
+|          6 | 2022-07-09 00:03:09 | saurabh       | saurabh@gmail.com |           14 | wipro           | 19-02-2021 | google            | chennai  |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+----------+
+
+
+ select * from students ORDER BY enrollment_date desc LIMIT 0, 3;
++------------+---------------+---------------+---------------+-------------------+--------------+-------------------------+---------------------+-------------------+--------------+-----------------+------------+-------------------+------------+
+| student_id | student_fname | student_lname | student_mname | student_email     | student_phone | student_alternate_phone | enrollment_date     | selected_course   | years_of_exp | student_company  | batch_date | source_of_joining | location |
++------------+---------------+---------------+---------------+-------------------+--------------+-------------------------+---------------------+-------------------+--------------+-----------------+------------+-------------------+------------+
+| 6          | saurabh       | ganguly       | NULL          | saurabh@gmail.com | 9291975191    | NULL                    | 2022-07-09 00:03:09 | 3                 | 14           | wipro            | 19-02-2021 | google            | chennai  |
+| 5          | carl          | hooper        | NULL          | carl@gmail.com    | 9293519191    | NULL                    | 2022-07-09 00:03:09 | 1                 | 20           | wipro            | 19-02-2021 | youtube           | pune     |
+| 3          | kapil         | dev           | NULL          | kapil@gmail.com   | 9294919191    | NULL                    | 2022-07-09 00:03:09 | 4                 | 15           | microsoft        | 05-02-2021 | friend            | pune     |
++------------+---------------+---------------+---------------+-------------------+--------------+-------------------------+---------------------+-------------------+--------------+-----------------+------------+-------------------+------------+
+-> 0: THIS IS THE OFFSET. IT MEANS "START FROM THE FIRST ROW" (0-INDEXED). THE RESULT WILL INCLUDE ROWS STARTING FROM THE VERY BEGINNING.
+   3: THIS IS THE LIMIT. IT RESTRICTS THE OUTPUT TO ONLY 3 ROWS, STARTING FROM THE 0TH ROW (THE FIRST ROW).
+
+
+
+LIKE:
+_____
+
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname LIKE '%ra%';
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+----------+
+| student_id | enrollment_date     | student_fname | student_email     | years_of_exp | student_company | batch_date | source_of_joining | location |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+----------+
+|          2 | 2022-07-09 00:03:08 | rahul         | rahul@gmail.com   |            8 | walmart         | 19-02-2021 | quora             | chennai  |
+|          4 | 2022-07-09 00:03:09 | brain         | brain@gmail.com   |           18 | tcs             | 05-02-2021 | youtube           | pune     |
+|          6 | 2022-07-09 00:03:09 | saurabh       | saurabh@gmail.com |           14 | wipro           | 19-02-2021 | google            | chennai  |
++------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+----------+
+'%ra%'
+THIS MATCHES ANY STRING THAT CONTAINS "ra" ANYWHERE IN THE TEXT.
+
+
+
+
+ select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname LIKE 'ra%';
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
+| student_id | enrollment_date     | student_fname | student_email   | years_of_exp | student_company | batch_date | source_of_joining | location |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
+|          2 | 2022-07-09 00:03:08 | rahul         | rahul@gmail.com |            8 | walmart         | 19-02-2021 | quora             | chennai  |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
+'ra%'
+THIS MATCHES ANY STRING THAT STARTS WITH "ra".
+
+
+
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname LIKE '%it';
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
+| student_id | enrollment_date     | student_fname | student_email   | years_of_exp | student_company | batch_date | source_of_joining | location  |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
+|          1 | 2022-07-09 00:03:08 | rohit         | rohit@gmail.com |            6 | walmart         | 05-02-2021 | linkedin          | bangalore |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
+'%it'
+THIS MATCHES ANY STRING THAT ENDS WITH "it".
+
+
+
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname like '_____';
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
+| student_id | enrollment_date     | student_fname | student_email   | years_of_exp | student_company | batch_date | source_of_joining | location  |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
+|          1 | 2022-07-09 00:03:08 | rohit         | rohit@gmail.com |            6 | walmart         | 05-02-2021 | linkedin          | bangalore |
+|          2 | 2022-07-09 00:03:08 | rahul         | rahul@gmail.com |            8 | walmart         | 19-02-2021 | quora             | chennai   |
+|          3 | 2022-07-09 00:03:09 | kapil         | kapil@gmail.com |           15 | microsoft       | 05-02-2021 | friend            | pune      |
+|          4 | 2022-07-09 00:03:09 | brain         | brain@gmail.com |           18 | tcs             | 05-02-2021 | youtube           | pune      |
++------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
+-> PATTERN MATCHES ANY student_fname WITH EXACTLY 5 CHARACTERS.
+
+
+
+select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname like '____';
++------------+---------------------+---------------+----------------+--------------+-----------------+------------+-------------------+----------+
+| student_id | enrollment_date     | student_fname | student_email  | years_of_exp | student_company | batch_date | source_of_joining | location |
++------------+---------------------+---------------+----------------+--------------+-----------------+------------+-------------------+----------+
+|          5 | 2022-07-09 00:03:09 | carl          | carl@gmail.com |           20 | wipro           | 19-02-2021 | youtube           | pune     |
++------------+---------------------+---------------+----------------+--------------+-----------------+------------+-------------------+----------+
+
+% AND _ ARE WILD CARD CHARACTERS.
+
+
+'%at'
+
+'%\%at'
+
+'%\_at'
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 7 -> ORDER OF EXECUTION
+_______________________________
+
+
+select DISTINCT source_of_joining from students ORDER BY enrollment_date desc;
+
+BOTH DISTINCT & ORDER BY 
+
+
+CASE 1:
+
+select source_of_joining from students
+
+ORDER OF EXECUTION:
+___________________
+
+1) FROM (LOADING THE TABLE)
+-> THE SQL ENGINE IDENTIFIES THE SOURCE TABLE, WHICH IS students. IT PREPARES TO RETRIEVE DATA FROM THIS TABLE.
+
+2) SELECT (PROJECTING source_of_joining)
+-> THE ENGINE SELECTS THE COLUMNS SPECIFIED IN THE SELECT CLAUSE, WHICH ARE source_of_joining. 
+   THIS IS THE VALUE THAT WILL BE RETURNED IN THE RESULT SET.
+ 
+
+
+CASE 2:
+
+select source_of_joining, enrollment_date from students.
+
+ORDER OF EXECUTION:
+___________________
+
+1) FROM (LOADING THE TABLE)
+
+2) SELECT (PROJECTING source_of_joining AND source_of_joining)
+
+
+
+
+CASE 3:
+
+select source_of_joining, enrollment_date from students order by enrollment_date;
+
+ORDER OF EXECUTION:
+___________________
+
+1) FROM (LOADING THE TABLE)
+
+2) SELECT (PROJECTING source_of_joining AND source_of_joining)
+
+3) ORDER BY (BASED ON enrollment_date IT WILL ORDER BY)
+-> THE ROWS ARE ORDERED BASED ON THE enrollment_date COLUMN IN ASCENDING ORDER BY DEFAULT (BECAUSE ASC IS THE 
+   DEFAULT SORTING ORDER IF NOT SPECIFIED). THIS STEP HAPPENS AFTER THE DATA IS SELECTED AND BEFORE IT IS RETURNED.
+
+
+
+
+CASE 4:
+
+select source_of_joining from students order by enrollment_date;
+
+ORDER OF EXECUTION:
+___________________
+
+1) FROM (LOADING THE TABLE)
+   select * from students;
+
+2) SELECT (PROJECTING source_of_joining , enrollment_date)
+   select source_of_joining,enrollment_date from students;
+
+3) ORDER BY (BASED ON enrollment_date IT WILL ORDER BY)
+   select source_of_joining from students order by enrollment_date;
+
+
+
+
+CASE 5:
+
+select distinct source_of_joining from students order by enrollment_date;
+-> THIS WONT WORK
+
+ORDER OF EXECUTION:
+___________________
+
+1) FROM (LOADING THE TABLE)
+   select * from students;
+
+2) SELECT (PROJECTING source_of_joining , enrollment_date)
+   select source_of_joining,enrollment_date from students;
+
+3) DISTINCT
+  WE WANT THIS TO BE HAPPEN ->  select distinct source_of_joining from students;  
+  BUT THE RESULT IS THIS -> select distinct source_of_joining,enrollment_date from students;
+  HERE DISTINCT IS HAPPENING ON THE COMBINATION OF THESE
+
+4) ORDER BY (BASED ON enrollment_date IT WILL ORDER BY)
+
+
+
+
+
+*****
+*****
+*****
+*****
+*****
+-> STILL SMALL DOUBT ABOUT CASE 5
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+SESSION 8 -> AGGREGATE FUNCTIONS
+________________________________
+
+
+AGGREGATE FUNCTIONS :
+_____________________
+
+-> AGGREGATE FUNCTIONS IN SQL ARE USED TO PERFORM CALCULATIONS ON A 
+   SET OF VALUES AND RETURN A SINGLE RESULT.
+
+
+
+
+COUNT:
+______
+
+ select count(*) from students;
+->THIS QUERY WILL RETURN THE TOTAL NUMBER OF ROWS (RECORDS) IN THE STUDENTS 
+  TABLE. IT COUNTS EVERY ROW, INCLUDING ROWS WITH NULL VALUES IN ANY COLUMN.
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
+
+select count(student_company) from students;
+-> THIS QUERY WILL RETURN THE NUMBER OF ROWS IN THE STUDENTS TABLE WHERE 
+   THE STUDENT_COMPANY COLUMN IS NOT NULL. IT WILL EXCLUDE ROWS WHERE STUDENT_COMPANY 
+   HAS A NULL VALUE.
+
+
+select count(DISTINCT student_company) from students;
++---------------------------------+
+| count(DISTINCT student_company) |
++---------------------------------+
+|                               4 |
++---------------------------------+
+
+select count(DISTINCT student_company) as num_companies from students;
++---------------+
+| num_companies |
++---------------+
+|             4 |
++---------------+
+
+
+select count(DISTINCT location) from students;
++--------------------------+
+| count(DISTINCT location) |
++--------------------------+
+|                        3 |
++--------------------------+
+
+select count(DISTINCT source_of_joining) from students;
++-----------------------------------+
+| count(DISTINCT source_of_joining) |
++-----------------------------------+
+|                                 5 |
++-----------------------------------+
+
+select count(*) from students where batch_date like '19%';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+
+
+GROUP BY VVIMP:
+______________
+
+
+WHAT I WANT IS TO KNOW THAT HOW MANY PEOPLE HAVE JOINED MY COURSE THROUGH
+
+LINKEDIN: 5
+GOOGLE: 2
+QUORA: 1
+
+NEEDS TO GROUP BY SOURCE_OF_JOINING
+
+
+
+ select source_of_joining, count(*) from students group by source_of_joining;
++-------------------+----------+
+| source_of_joining | count(*) |
++-------------------+----------+
+| friend            |        1 |
+| google            |        1 |
+| linkedin          |        1 |
+| quora             |        1 |
+| youtube           |        2 |
++-------------------+----------+
+
+select location, count(*) from students group by location;
++-----------+----------+
+| location  | count(*) |
++-----------+----------+
+| bangalore |        1 |
+| chennai   |        2 |
+| pune      |        3 |
++-----------+----------+
+
+
+ 
+select location, count(*) from students group by source_of_joining;
+-> THIS WILL NOT WORK 
+
+
+
+ select location,source_of_joining,count(*) from students  group by location,source_of_joining;
++-----------+-------------------+----------+
+| location  | source_of_joining | count(*) |
++-----------+-------------------+----------+
+| bangalore | linkedin          |        1 |
+| chennai   | google            |        1 |
+| chennai   | quora             |        1 |
+| pune      | friend            |        1 |
+| pune      | youtube           |        2 |
++-----------+-------------------+----------+
+
+ select selected_course, count(*) from students GROUP BY selected_course;
++-----------------+----------+
+| selected_course | count(*) |
++-----------------+----------+
+|               1 |        2 |
+|               2 |        1 |
+|               3 |        2 |
+|               4 |        1 |
++-----------------+----------+
+
+select batch_date,selected_course,count(*) from students GROUP BY batch_date,selected_course;
++------------+-----------------+----------+
+| batch_date | selected_course | count(*) |
++------------+-----------------+----------+
+| 05-02-2021 |               2 |        1 |
+| 05-02-2021 |               3 |        1 |
+| 05-02-2021 |               4 |        1 |
+| 19-02-2021 |               1 |        2 |
+| 19-02-2021 |               3 |        1 |
++------------+-----------------+----------+
+
+
+MIN & MAX:
+__________
+
+select MIN(years_of_exp) from students;
++-------------------+
+| MIN(years_of_exp) |
++-------------------+
+|                 6 |
++-------------------+
+
+select MAX(years_of_exp) from students;
++-------------------+
+| MAX(years_of_exp) |
++-------------------+
+|                20 |
++-------------------+
+
+select MIN(years_of_exp),student_fname from students;
+-> THIS WILL NOT WORK
+-> IF IT DOES WORK, IT MIGHT RETURN A STUDENT_FNAME FOR THE STUDENT WITH THE 
+   MINIMUM YEARS_OF_EXP, BUT THIS BEHAVIOR IS NOT RELIABLE OR STANDARD IN SQL.
+
+   EXAMPLE DATA : 
+
+   years_of_exp	 student_fname
+   3	           Alice
+   2	           Bob
+   5	           Charlie
+   4	           Dave
+  
+   POSSIBLE OUTPUT :
+
+   MIN(years_of_exp)	student_fname
+         2	             Bob
+
+
+-> REASON : 
+   WHEN USING AN AGGREGATE FUNCTION LIKE MAX(), ANY OTHER COLUMNS IN THE SELECT STATEMENT 
+   MUST BE EITHER AGGREGATED (E.G., MAX(), SUM(), ETC.) OR INCLUDED IN A GROUP BY CLAUSE
+
+select MAX(years_of_exp),student_fname from students;
+-> THIS WILL NOT WORK
+-> REASON : 
+   WHEN USING AN AGGREGATE FUNCTION LIKE MAX(), ANY OTHER COLUMNS IN THE SELECT STATEMENT 
+   MUST BE EITHER AGGREGATED (E.G., MAX(), SUM(), ETC.) OR INCLUDED IN A GROUP BY CLAUSE
+
+
+INSTEAD USE THIS 
+
+MIN : select student_fname from students order by years_of_exp limit 1;
+
+MAX : select student_fname from students order by years_of_exp desc limit 1;
+
+
+
+
+EACH SOURCE OF JOINING I WANT TO GET MAX : 
+
+select source_of_joining,MAX(years_of_exp) from students group by source_of_joining;
++-------------------+-------------------+
+| source_of_joining | max(years_of_exp) |
++-------------------+-------------------+
+| friend            |                15 |
+| google            |                14 |
+| linkedin          |                 6 |
+| quora             |                 8 |
+| youtube           |                20 |
++-------------------+-------------------+
+
+
+
+
+
+
+SUM:
+____
+
+select source_of_joining, SUM(years_of_exp) from students group by source_of_joining;
++-------------------+-------------------+
+| source_of_joining | sum(years_of_exp) |
++-------------------+-------------------+
+| friend            |                15 |
+| google            |                14 |
+| linkedin          |                 6 |
+| quora             |                 8 |
+| youtube           |                38 |
++-------------------+-------------------+
+
+AVG:
+____
+
+select source_of_joining, AVG(years_of_exp) from students group by source_of_joining;
++-------------------+-------------------+
+| source_of_joining | avg(years_of_exp) |
++-------------------+-------------------+
+| friend            |           15.0000 |
+| google            |           14.0000 |
+| linkedin          |            6.0000 |
+| quora             |            8.0000 |
+| youtube           |           19.0000 |
++-------------------+-------------------+
+
+select location, AVG(years_of_exp) from students group by location;
++-----------+-------------------+
+| location  | avg(years_of_exp) |
++-----------+-------------------+
+| bangalore |            6.0000 |
+| chennai   |           11.0000 |
+| pune      |           17.6667 |
++-----------+-------------------+
+
+
+select student_company, AVG(years_of_exp) from students group by student_company;
++-----------------+-------------------+
+| student_company | avg(years_of_exp) |
++-----------------+-------------------+
+| microsoft       |           15.0000 |
+| tcs             |           18.0000 |
+| walmart         |            7.0000 |
+| wipro           |           17.0000 |
++-----------------+-------------------+
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+SESSION 9: -> DECIMAL & TIMESTAMPN DATATYPES
+____________________________________________
+
+create table courses_new
+(
+course_id int AUTO_INCREMENT,
+course_name varchar(30) NOT NULL,
+course_duration_months decimal(3,1) NOT NULL,
+course_fee int NOT NULL,
+PRIMARY KEY(course_id)
+);
+
+
+
+-> DECIMAL(3,1)
+   3 DIGITS TOTAL
+   1 DIGIT AFTER THE DECIMAL POINT
+
+
+
+insert into courses_new(course_name,course_duration_months,course_fee) values
+('bigdata', 6.5, 50000),
+('webdevelopment', 3.5, 20000),
+('datascience', 6, 40000),;
+
+update courses_new set course_fee = 40000 where course_id = 2;
+
+select * from courses_new;
++-----------+----------------+------------------------+------------+
+| course_id | course_name    | course_duration_months | course_fee |
++-----------+----------------+------------------------+------------+
+|         1 | bigdata        |                    6.5 |      50000 |
+|         2 | webdevelopment |                    3.5 |      40000 |
+|         3 | datascience    |                    6.0 |      40000 |
++-----------+----------------+------------------------+------------+
+
+create table courses_new
+(
+course_id int AUTO_INCREMENT,
+course_name varchar(30) NOT NULL,
+course_duration_months decimal(3,1) NOT NULL,
+course_fee int NOT NULL,
+changed_at TIMESTAMP DEFAULT NOW(),
+PRIMARY KEY(course_id)
+);
+
+
+insert into courses_new(course_name,course_duration_months,course_fee) values
+('bigdata', 6.5, 50000),
+('webdevelopment', 3.5, 20000),
+('datascience', 6, 40000),;
+
+select * from courses_new;
++-----------+----------------+------------------------+------------+---------------------+
+| course_id | course_name    | course_duration_months | course_fee | changed_at          |
++-----------+----------------+------------------------+------------+---------------------+
+|         1 | bigdata        |                    6.5 |      50000 | 2022-07-11 00:01:52 |
+|         2 | webdevelopment |                    3.5 |      20000 | 2022-07-11 00:01:52 |
+|         3 | datascience    |                    6   |      40000 | 2022-07-11 00:01:52 |
++-----------+----------------+------------------------+------------+---------------------+
+
+update courses_new set course_duration_months = 4.5 where course_id = 3;
+
+select * from courses_new;
++-----------+----------------+------------------------+------------+---------------------+
+| course_id | course_name    | course_duration_months | course_fee | changed_at          |
++-----------+----------------+------------------------+------------+---------------------+
+|         1 | bigdata        |                    6.5 |      50000 | 2022-07-11 00:01:52 |
+|         2 | webdevelopment |                    3.5 |      20000 | 2022-07-11 00:01:52 |
+|         3 | datascience    |                    4.5 |      40000 | 2022-07-11 00:01:52 |
++-----------+----------------+------------------------+------------+---------------------+
+
+WE HAVE UPDATED SOMETHING BUT THE TIME AT CHANGED_AT DID NOT CHANGED
+
+
+
+create table courses_new
+(
+course_id int AUTO_INCREMENT,
+course_name varchar(30) NOT NULL,
+course_duration_months decimal(3,1) NOT NULL,
+course_fee int NOT NULL,
+changed_at TIMESTAMP DEFAULT NOW() ON UPDATE CURRENT_TIMESTAMP(),
+PRIMARY KEY(course_id)
+);
+
+CURRENT_TIMESTAMP() AND NOW() BOTH ARE SAME
+
+NOW IF WE UPDATE SOMETHING THEN THE TIME ALSO GETS CHANGED 
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+SESSION 10:   -> LOGICAL OPERATORS
+__________________________________
+
+TO GET PEOPLE WHO ARE FROM BANGALORE:
+select * from students where location = 'bangalore';
+
+
+TO GET PEOPLE WHO ARE NOT FROM BANGALORE:
+select * from students where location != 'bangalore';
+
+
+GET ALL THE COURSES WHICH HAS WORD 'DATA'
+select * from courses where course_name like "%data%";
++-----------+-------------+---------------------------+------------+
+| course_id | course_name | course_duration_in_months | course_fee |
++-----------+-------------+---------------------------+------------+
+|         1 | bigdata     |                         6 |      40000 |
+|         3 | datascience |                         6 |      50000 |
+|         5 | database    |                         4 |       3000 |
++-----------+-------------+---------------------------+------------+
+
+
+GET ALL COURSES WHICH DO NOT HAVE THE WORD 'DATA'
+select * from courses where course_name not like "%data%";
++-----------+----------------+---------------------------+------------+
+| course_id | course_name    | course_duration_in_months | course_fee |
++-----------+----------------+---------------------------+------------+
+|         2 | webdevelopment |                         3 |      20000 |
+|         4 | devops         |                         1 |      10000 |
++-----------+----------------+---------------------------+------------+
+
+
+ALL STUDENTS FROM BANGALORE WHO JOINED THROUGH LINKEDIN AND HAVING LESS THAN 8 YEARS OF EXPERIENCE.
+select * from students where years_of_exp < 8  and source_of_joining = 'linkedin' and location='bangalore';
+
+
+I WANT ALL PEOPLE WHO DO NOT FALL BETWEEN 8 TO 12 YEARS OF EXPERIENCE.
+select * from students where years_of_exp<8 or years_of_exp>12;
+select * from students where years_of_exp not between 8 and 12;
+
+
+LIST OF STUDENTS FOR FLIPKART, WALMART, OR MICROSOFT.
+select * from students where student_company='flipkart' or student_company='walmart' or student_company='microsoft';
+select * from students where student_company in ('flipkart','walmart','microsoft');
+select * from students where student_company not in ('flipkart','walmart','microsoft');
+
+
+IF A COURSE IS MORE THAN 4 MONTHS, WE CATEGORIZE IT AS A MASTER'S PROGRAM; ELSE, IT IS A DIPLOMA PROGRAM.
+
+select course_id,course_name,course_fee,
+CASE
+  WHEN course_duration_in_months > 4 THEN 'masters'
+  ELSE 'diploma'
+END as course_type 
+from courses;
+
++-----------+----------------+------------+-------------+
+| course_id | course_name    | course_fee | course_type |
++-----------+----------------+------------+-------------+
+|         1 | bigdata        |      40000 | masters     |
+|         2 | webdevelopment |      20000 | diploma     |
+|         3 | datascience    |      50000 | masters     |
+|         4 | devops         |      10000 | diploma     |
+|         5 | database       |       3000 | diploma     |
++-----------+----------------+------------+-------------+
+
+
+PEOPLE WORKING FOR WALMART, FLIPKART, AND MICROSOFT WE WANT TO SAY PRODUCT-BASED; ELSE, SERVICE-BASED.
+
+select student_id,student_fname,student_lname,student_company,
+CASE
+  WHEN student_company in ('flipkart','walmart','microsoft') THEN 'product based'
+  WHEN student_company is NULL THEN 'invalid company'
+  ELSE 'service based'
+END as company_type from students;
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+SESSION 11 : -> JOINS
+_____________________
+
+-----
+JOINS
+-----
+
+
+2 TABLES
+--------
+COURSES 
+STUDENTS 
+
+
+I WANT TO KNOW IN WHICH COURSE RAHUL HAS ENROLLED
+
+STUDENTS -> RAHUL 1
+--------
+
+COURSES -> 1 BIG DATA
+-------
+
+select course_name from courses where course_id = (select selected_course from students where student_fname='rahul');
+            +----------------+
+            | course_name    |
+            +----------------+
+            | bigdata        |           
+            +----------------+
+
+IN STUDENTS TABLE WE HAVE SELECTED_COURSE
+IN COURSES TABLE WE HAVE COURSE_ID
+
+
+--> FIND THE COURSE IN WHICH STUDENTS ARE ENROLLED.
+
+SELECT students.student_fname, students.student_lname,courses.course_name FROM students JOIN courses  
+ON students.selected_course = courses.course_id;
+
+** BY DEFAULT, IT IS AN INNER JOIN.
+** INNER JOIN : ONLY THE MATCHING RECORDS WILL BE CONSIDERED AND NON-MATCHING RECORDS WILL BE DISCARDED.
+
+
+
+
+---------------
+LEFT OUTER JOIN
+---------------
+
+*** ALL THE MATCHING RECORDS FROM LEFT AND RIGHT TABLE ARE CONSIDERED + ALL THE NON-MATCHING RECORDS IN THE LEFT TABLE WHICH DOES NOT HAVE THE MATCH IN THE RIGHT TABLE PADDDED WITH NULL.
+
+FOR LEFT OUTER JOIN TO HAPPEN, WE MUST HAVE SOME EXTRA RECORDS IN THE LEFT TABLE (T1)
+
+T1 (LEFT TABLE) X T2 (RIGHT TABLE)
+
+-- DELETE THE COURSE HAVING COURSE_ID = 2
+
+DELETE FROM COURSES WHERE COURSE_ID = 2;
+THE ABOVE DELETE QUERY WON'T WORK BECAUSE IT IS ATTACHED WITH THE STUDENTS TABLE ALSO IN THE FORM OF FOREIGN KEY
+IF WE TRY TO DELETE THE COURSE HAVING COURSE_ID = 2, THEN THE STUDENT WHO HAS ENROLLED FOR COURSE_ID = 2 WILL BECOME INVALID
+-- NOW, WE WILL CREATE A NEW STUDENTS TABLE AND A NEW COURSES TABLE WITH THE SAME DATA BUT THE FOREIGN KEY CONSTRAINT WON'T BE THERE
+TO COPY A TABLE AND ITS STRUCTURE (BUT WITHOUT FOREIGN KEYS):
+create table students_latest as select * from students;
+create table courses_latest as select * from courses;
+
+-- NOW, WE CAN DELETE THE RECORDS FROM THE COURSES TABLE
+
+
+INNER JOIN
+----------
+SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
+
+
+LEFT OUTER JOIN
+---------------
+SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest LEFT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
+
+
+
+
+----------------
+RIGHT OUTER JOIN
+----------------
+
+
+*** ALL THE MATCHING RECORDS FROM LEFT AND RIGHT TABLE ARE CONSIDERED +
+ALL THE NON-MATCHING RECORDS IN THE RIGHT TABLE WHICH DO NOT HAVE A MATCH IN THE LEFT ARE PADDED WITH NULL
+
+** FOR RIGHT OUTER JOIN TO HAPPEN, WE MUST HAVE SOME EXTRA RECORDS IN THE RIGHT TABLE (T2)
+
+** T1 (LEFT TABLE) X T2 (RIGHT TABLE)
+** HOW TO PERFORM A RIGHT OUTER JOIN?
+==> WE JUST HAVE TO GIVE THE KEYWORD RIGHT BEFORE JOIN.
+
+-- FIND THE COURSE IN WHICH STUDENTS ARE ENROLLED
+SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest RIGHT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
+
+
+
+---------------
+FULL OUTER JOIN
+---------------
+
+
+*ALL THE MATCHING RECORDS + NON-MATCHING RECORDS FROM LEFT + NON-MATCHING RECORDS FROM RIGHT
+
+* FULL OUTER JOIN = LEFT OUTER JOIN UNION RIGHT OUTER JOIN
+* IN SQL, WE DO NOT HAVE KEYWORD FULL FOR FULL OUTER JOIN, SO WE WILL DO UNION OF LEFT OUTER JOIN AND RIGHT OUTER JOIN
+
+SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest LEFT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
+UNION
+SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest RIGHT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
+
+
+
+
+----------
+CROSS JOIN
+----------
+CROSS JOIN IN SQL RETURNS THE CARTESIAN PRODUCT OF TWO TABLES, MEANING IT COMBINES EACH 
+RECORD FROM THE FIRST TABLE WITH EVERY RECORD FROM THE SECOND TABLE. IT DOES NOT REQUIRE 
+A CONDITION OR ON CLAUSE.
+
+THIS WILL RETURN ALL POSSIBLE COMBINATIONS OF STUDENTS AND COURSES.
+
+
+IF LEFT TABLE (T1) HAS 4 RECORDS
+IF RIGHT TABLE (T2) HAS 5 RECORDS
+
+THEN, CROSS JOIN = 4 * 5 = 20 RECORDS, 1 TO 1 MAPPING WITH EACH RECORD.
+
+SELECT COUNT(*) FROM students;
+-- 7 RECORDS
+
+SELECT COUNT(*) FROM courses;
+-- 5 RECORDS
+
+SELECT COUNT(*) FROM students, courses; 
+-- 35 RECORDS
+
+SELECT COUNT(*) FROM students JOIN courses;
+-- 35 RECORDS
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 12 : -> WHERE vs HAVING CLAUSE IN SQL
+_____________________________________________
+
+
+
+-- FIND THE source_of_joining THROUGH WHICH STUDENT HAS ENROLLED
+SELECT source_of_joining, COUNT(*) AS total from students GROUP BY source_of_joining;
+
+-- FIND THE source_of_joining THROUGH WHICH MORE THAN 1 STUDENT HAS ENROLLED
+SELECT source_of_joining, COUNT(*) AS total from students GROUP BY source_of_joining WHERE total > 1;
+-> BUT THIS WILL NOT WORK
+
+** WHERE CLAUSE IS USED TO FILTER THE INDIVIDUAL RECORDS BEFORE GROUP BY
+
+SELECT source_of_joining, COUNT(*) AS total from students GROUP BY source_of_joining HAVING total > 1;
+
+** HAVING CLAUSE IS USED TO FILTER THE RECORDS AFTER GROUP BY
+
+
+
+
+-> WHERE
+---------
+
+product_id    amount
+  1		200
+  2		150
+  1		100
+  2		300
+  1		250
+ 
+EXAMPLE 1 : FILTERING INDIVIDUAL RECORDS WHERE AMOUNT > 150
+
+product_id	amount
+  2	         300
+  1	         200
+  1	         250
+
+
+
+-> HAVING
+---------
+
+product_id    amount
+  1		200
+  2		150
+  1		100
+  2		300
+  1		250
+
+USING HAVING TO FILTER GROUPS BASED ON AGGREGATE VALUES
+SUPPOSE YOU WANT TO FILTER THE GROUPS WHERE THE TOTAL SUM OF THE AMOUNT ARE GREATER THAN 500. YOU WOULD USE THE HAVING CLAUSE.
+
+
+ product_id	total_sales
+    1	          550
+
+
+
+
+
+
+--  FIND THE TOTAL NUMBER OF STUDENTS WHO HAVE ENROLLED THROUGH LINKEDIN AS
+source_of_joining
+
+
+-- OPTIMISED QUERY (FILTERING IS HAPPENING BEFORE GROUP BY)
+SELECT source_of_joining, COUNT(*) AS total FROM students WHERE source_of_joining = 'linkedin' GROUP BY source_of_joining;
+-> OPTIMISED BECAUSE FIRST IT IS TAKING ALL THE STUDENTS WITH LINKEDIN THEN GROUPING 
+
+OR
+
+-- NON-OPTIMISED QUERY (FILTERING IS HAPPENING AFTER GROUP BY)
+SELECT source_of_joining, COUNT(*) AS total FROM students GROUP BY source_of_joining HAVING source_of_joining = 'linkedin';
+-> NON-OPTIMISED BECAUSE FIRST IT IS GROUPIING EVERYTHING THEN FROM THAT IT IS TAKING LINKEDIN MEMBER
+
+
+
+----------------------------------------------------
+CAN WE USE WHERE & HAVING CLAUSE IN THE SAME QUERY ?
+----------------------------------------------------
+
+-- FIND THE LOCATIONS FROM WHICH MORE THAN 1 STUDENT HAS JOINED & THE STUDENTS YEARS_OF_EXP IS MORE THAN 5 YEARS.
+
+SELECT location, COUNT(*) AS total from students WHERE years_of_exp > 5 GROUP BY location HAVING total > 1;
+
+________________________________________________________________________
+
+★ WHERE IS USED BEFORE GROUP BY AND DOES FILTERING ON INDIVIDUAL RECORDS.
+★ HAVING IS USED AFTER GROUP BY AND DOES FILTERING ON AGGREGATED RECORDS.
+★ WE CAN USE WHERE AND HAVING IN THE SAME QUERY ALSO.
+★ WHERE IS MORE PERFORMANT THAN HAVING.
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 13 : -> OVER AND PARTITION BY CLAUSE
+____________________________________________
+
+
+
+-- FROM HERE WE WON'T USE GOORM IDE, BECAUSE THAT WAS USING OLDER VERSIONS OF MYSQL. INSTEAD WE WILL USE   https://onecompiler.com/mysql
+
+CREATE TABLE employee
+(
+    firstname varchar(20),
+    lastname varchar(20),
+    age int,
+    salary int,
+    location varchar(20)
+);
+
+INSERT INTO employee VALUES
+('Sachin', 'Sharma', 28, 10000, 'Bangalore'),
+('Rohit', 'Sharma', 30, 20000, 'Hyderabad'),
+('Virat', 'Kohli', 29, 30000, 'Chennai'),
+('Akshay', 'Kumar', 32, 40000, 'Bangalore'),
+('Sunil', 'Shetty', 34, 50000, 'Hyderabad'),
+('Mark', 'John', 34, 50000, 'Bangalore');
+
+select * from employee;
++-----------+----------+------+--------+-----------+
+| firstname | lastname | age  | salary | location  |
++-----------+----------+------+--------+-----------+
+| Sachin    | Sharma   |   28 |  10000 | Bangalore |
+| Rohit     | Sharma   |   30 |  20000 | Hyderabad |
+| Virat     | Kohli    |   29 |  30000 | Chennai   |
+| Akshay    | Kumar    |   32 |  40000 | Bangalore |
+| Sunil     | Shetty   |   34 |  50000 | Hyderabad |
+| Mark      | John     |   34 |  50000 | Bangalore |
++-----------+----------+------+--------+-----------+
+
+
+-- HOW MANY PEOPLE ARE FROM EACH LOCATION AND AVERAGE SALARY AT EACH LOCATION.
+-- BANGALORE, 4, 19999 (EXAMPLE)
+SELECT location, COUNT(location) AS total, AVG(salary) AS average from employee GROUP BY location;
++-----------+-------+------------+
+| location  | total | average    |
++-----------+-------+------------+
+| Bangalore |     3 | 33333.3333 |
+| Hyderabad |     2 | 35000.0000 |
+| Chennai   |     1 | 30000.0000 |
++-----------+-------+------------+
+
+
+
+
+
+-- FETCH THE FIRSTNAME, LASTNAME AND HOW MANY PEOPLE ARE FROM EACH LOCATION AND AVERAGE SALARY AT EACH LOCATION.
+SELECT firstname, lastname, location, COUNT(location) AS total, AVG(salary) AS average from employee GROUP BY location;
+-> IT WILL NOT WORK
+REASON : 
+-> firstname AND lastname ARE NOT AGGREGATED (LIKE USING COUNT, AVG, ETC.) NOR PART OF THE GROUP BY CLAUSE, 
+   SO SQL DOESNOT KNOW HOW TO HANDLE THEM WHEN GROUPING BY LOCATION.
+
+
+-- WE CAN TRY ACHIEVEING IT USING A JOIN
+
+SELECT firstname, lastname, employee.location, total_count, avg_salary FROM employee JOIN 
+(SELECT location, COUNT(location) AS total_count, AVG(salary) AS avg_salary from employee GROUP BY location) temptable ON 
+employee.location = temptable.location;
+*** -> Q) WHY employee.location ? ANS) THE LOCATION COLUMN WHICH WE ARE SELETCING
+     IT BELONGS TO EMPLOYEE TABLE  AND TEMPTABLE ALSO SO SYSTEM WILL CONFUSE
+     SO.... WE HAVE TO GIVE LIKE THAT AND WE CAN ALSO WRITE LIKE THIS 
+SELECT firstname, lastname, temptable.location, total_count, avg_salary FROM employee JOIN 
+(SELECT location, COUNT(location) AS total_count, AVG(salary) AS avg_salary from employee GROUP BY location) temptable ON 
+employee.location = temptable.location;
+
+EMPLOYEE: THE ACTUAL TABLE IN THE DATABASE.
+TEMPTABLE: AN ALIAS FOR THE RESULT SET OF THE SUBQUERY, USED TO JOIN AGGREGATED DATA (LIKE COUNT AND AVERAGE) BACK WITH THE ORIGINAL EMPLOYEE TABLE.
+
+THE QUERY RETRIEVES EACH EMPLOYEE'S DETAILS (FIRSTNAME, LASTNAME, LOCATION) AND ADDS THE TOTAL NUMBER OF EMPLOYEES (TOTAL_COUNT) AND AVERAGE SALARY (AVG_SALARY) FOR THEIR LOCATION BY JOINING WITH A SUBQUERY THAT CALCULATES THESE AGGREGATES.
+
++-----------+----------+-----------+-------------+------------+
+| firstname | lastname | location  | total_count | avg_salary |
++-----------+----------+-----------+-------------+------------+
+| Sachin    | Sharma   | Bangalore |           3 | 33333.3333 |
+| Rohit     | Sharma   | Hyderabad |           2 | 35000.0000 |
+| Virat     | Kohli    | Chennai   |           1 | 30000.0000 |
+| Akshay    | Kumar    | Bangalore |           3 | 33333.3333 |
+| Sunil     | Shetty   | Hyderabad |           2 | 35000.0000 |
+| Mark      | John     | Bangalore |           3 | 33333.3333 |
++-----------+----------+-----------+-------------+------------+
+
+
+
+-- IS THERE ANY OTHER WAY TO PERFORM ABOVE QUERY?
+
+==> WE CAN USE OVER PARTITION BY TO ACHIEVE THIS EASILY
+
+** PARTITION BY IS USEFUL WHILE PERFORMING OPERATIONS ON NON-AGGREGATE COLUMNS
+
+SELECT firstname, lastname, location, 
+COUNT(location) OVER (PARTITION BY location) AS total, 
+AVG(salary) OVER (PARTITION BY location) AS average 
+FROM employee;
+
++-----------+----------+-----------+-------+------------+
+| firstname | lastname | location  | total | average    |
++-----------+----------+-----------+-------+------------+
+| Sachin    | Sharma   | Bangalore |     3 | 33333.3333 |
+| Akshay    | Kumar    | Bangalore |     3 | 33333.3333 |
+| Mark      | John     | Bangalore |     3 | 33333.3333 |
+| Virat     | Kohli    | Chennai   |     1 | 30000.0000 |
+| Rohit     | Sharma   | Hyderabad |     2 | 35000.0000 |
+| Sunil     | Shetty   | Hyderabad |     2 | 35000.0000 |
++-----------+----------+-----------+-------+------------+
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 14 : -> ROW NUMBER FUNCTION
+___________________________________
+
+
+
+CREATE TABLE employee
+(
+    firstname varchar(20),
+    lastname varchar(20),
+    age int,
+    salary int,
+    location varchar(20)
+);
+
+INSERT INTO employee VALUES
+('Sachin', 'Sharma', 28, 10000, 'Bangalore'),
+('Shane', 'Warne', 30, 20000, 'Bangalore'),
+('Rohit', 'Sharma', 32, 30000, 'Hyderabad'),
+('Shikhar', 'Dhawan', 32, 25000, 'Hyderabad'),
+('Rahul', 'Dravid', 31, 20000, 'Bangalore'),
+('Saurabh', 'Ganguly', 32, 15000, 'Pune'),
+('Kapil', 'Dev', 34, 10000, 'Pune');
+
+
+===============================================================================
+
+** ROW_NUMBER() WON'T WORK without ORDER BY 
+
+SELECT firstname, lastname, salary, 
+row_number() OVER (ORDER BY salary DESC) FROM employee;
+
+OVER DEFINES HOW TO APPLY ROW_NUMBER(), LIKE SAYING "RANK THESE ROWS BASED ON SALARY".
+WITHOUT OVER, SQL DOESN'T KNOW HOW TO RANK OR ASSIGN ROW NUMBERS AND WILL PRODUCE AN ERROR.
+THE ROW_NUMBER() FUNCTION REQUIRES OVER TO TELL IT HOW TO ASSIGN THE NUMBERS
+
++-----------+----------+--------+------------------------------------------+
+| firstname | lastname | salary | row_number() OVER (ORDER BY salary DESC) |
++-----------+----------+--------+------------------------------------------+
+| Rohit     | Sharma   |  30000 |                                        1 |
+| Shikhar   | Dhawan   |  25000 |                                        2 |
+| Shane     | Warne    |  20000 |                                        3 |
+| Rahul     | Dravid   |  20000 |                                        4 |
+| Saurabh   | Ganguly  |  15000 |                                        5 |
+| Sachin    | Sharma   |  10000 |                                        6 |
+| Kapil     | Dev      |  10000 |                                        7 |
++-----------+----------+--------+------------------------------------------+
+
+SELECT firstname, lastname, salary, 
+row_number() OVER (ORDER BY salary DESC) as RowNumber FROM employee;
++-----------+----------+--------+-----------+
+| firstname | lastname | salary | RowNumber |
++-----------+----------+--------+-----------+
+| Rohit     | Sharma   |  30000 |         1 |
+| Shikhar   | Dhawan   |  25000 |         2 |
+| Shane     | Warne    |  20000 |         3 |
+| Rahul     | Dravid   |  20000 |         4 |
+| Saurabh   | Ganguly  |  15000 |         5 |
+| Sachin    | Sharma   |  10000 |         6 |
+| Kapil     | Dev      |  10000 |         7 |
++-----------+----------+--------+-----------+
+
+
+
+-- FIND THE RECORD HAVING 5TH HIGHEST SALARY
+
+select * from (select firstname, lastname, salary, 
+row_number() over (order by salary desc) AS rownum from employee) temptable where rownum = 5;
+
+TEMPTABLE IS AN ALIAS FOR THE RESULT SET GENERATED BY THE INNER QUERY. IT IS NOT A PHYSICAL 
+TABLE IN THE DATABASE; RATHER, IT REPRESENTS A TEMPORARY VIEW OF THE DATA PRODUCED BY THE INNER QUERY.
+
++-----------+----------+--------+--------+
+| firstname | lastname | salary | rownum |
++-----------+----------+--------+--------+
+| Saurabh   | Ganguly  |  15000 |      5 |
++-----------+----------+--------+--------+
+
+
+-- ASSIGN ROW NUMBER FOR PARTITIONS BASED ON EACH LOCATION
+
+SELECT firstname, lastname, location, salary, row_number() OVER (PARTITION BY location ORDER BY salary DESC) FROM employee; 
++-----------+----------+-----------+--------+----------------------------------------------------------------+
+| firstname | lastname | location  | salary | row_number() OVER (PARTITION BY location ORDER BY salary DESC) |
++-----------+----------+-----------+--------+----------------------------------------------------------------+
+| Shane     | Warne    | Bangalore |  20000 |                                                              1 |
+| Rahul     | Dravid   | Bangalore |  20000 |                                                              2 |
+| Sachin    | Sharma   | Bangalore |  10000 |                                                              3 |
+| Rohit     | Sharma   | Hyderabad |  30000 |                                                              1 |
+| Shikhar   | Dhawan   | Hyderabad |  25000 |                                                              2 |
+| Saurabh   | Ganguly  | Pune      |  15000 |                                                              1 |
+| Kapil     | Dev      | Pune      |  10000 |                                                              2 |
++-----------+----------+-----------+--------+----------------------------------------------------------------+
+
+
+-- FIND THE CANDIDATE HAVING HIGHEST SALARY FROM EACH LOCATION
+
+SELECT * FROM (SELECT firstname, lastname, location, salary, 
+row_number() OVER (PARTITION BY location ORDER BY salary DESC) AS rownum 
+FROM employee) temptable
+WHERE rownum = 1;
++-----------+----------+-----------+--------+--------+
+| firstname | lastname | location  | salary | rownum |
++-----------+----------+-----------+--------+--------+
+| Shane     | Warne    | Bangalore |  20000 |      1 |
+| Rohit     | Sharma   | Hyderabad |  30000 |      1 |
+| Saurabh   | Ganguly  | Pune      |  15000 |      1 |
++-----------+----------+-----------+--------+--------+
+
+
+===============================================================================
+
+** WHEN WE USE ROW_NUMBER, WE MUST USE ORDER BY CLAUSE OTHERWISE IT WON'T WORK.
+** WHEN WE USE ROW_NUMBER, WE MAY/MAY NOT USE THE PARTITION BY.
+** THE ROW_NUMBER STARTS FROM 1 FOR EACH PARTITION.
+** ROW_NUMBER WILL ASSIGN THE NUMBER UNIQUELY EVEN THOUGH THERE ARE DUPLICATE DATA IN THE RECORDS.
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+SESSION 15 : -> RANK & DENSE RANK
+_________________________________
+
+
+CREATE TABLE employee
+(
+    firstname varchar(20),
+    lastname varchar(20),
+    age int,
+    salary int,
+    location varchar(20)
+);
+
+INSERT INTO employee VALUES
+('Sachin', 'Sharma', 28, 10000, 'Bangalore'),
+('Shane', 'Warne', 30, 20000, 'Bangalore'),
+('Rohit', 'Sharma', 32, 30000, 'Hyderabad'),
+('Shikhar', 'Dhawan', 32, 25000, 'Hyderabad'),
+('Rahul', 'Dravid', 31, 20000, 'Bangalore'),
+('Saurabh', 'Ganguly', 32, 15000, 'Pune'),
+('Kapil', 'Dev', 34, 10000, 'Pune');
+
+--------------------------------------------------------------------------
+
+** LIKE IN ROW_NUMBER, ORDER BY IS MANDATORY FOR RANK & DENSE_RANK
+** ROW_NUMBER DO NOT HANDLES DUPLICATES, SO WE HAVE RANK & DENSE RANK
+** WHEN THERE ARE NO DUPLICATE DATA IN THE RECORDS, ROW_NUMBER(), RANK() AND DENSE_RANK()            
+   ALL OF THEM WILL GIVE THE SAME RESULT.    
+
+
+SELECT firstname, lastname, salary, 
+row_number() OVER (ORDER BY salary DESC) FROM employee;
++-----------+----------+--------+------------------------------------------+
+| firstname | lastname | salary | row_number() OVER (ORDER BY salary DESC) |
++-----------+----------+--------+------------------------------------------+
+| Rohit     | Sharma   |  30000 |                                        1 |
+| Shikhar   | Dhawan   |  25000 |                                        2 |
+| Shane     | Warne    |  20000 |                                        3 |
+| Rahul     | Dravid   |  20000 |                                        4 |
+| Saurabh   | Ganguly  |  15000 |                                        5 |
+| Sachin    | Sharma   |  10000 |                                        6 |
+| Kapil     | Dev      |  10000 |                                        7 |
++-----------+----------+--------+------------------------------------------+
+EACH ROW GETS A UNIQUE RANK, EVEN IF THERE ARE DUPLICATE VALUES IN THE COLUMN(S)
+NO GAPS IN NUMBERING.
+
+
+SELECT firstname, lastname, salary, 
+RANK() OVER (ORDER BY salary DESC) FROM employee;
++-----------+----------+--------+------------------------------------+
+| firstname | lastname | salary | RANK() OVER (ORDER BY salary DESC) |
++-----------+----------+--------+------------------------------------+
+| Rohit     | Sharma   |  30000 |                                  1 |
+| Shikhar   | Dhawan   |  25000 |                                  2 |
+| Shane     | Warne    |  20000 |                                  3 |
+| Rahul     | Dravid   |  20000 |                                  3 |
+| Saurabh   | Ganguly  |  15000 |                                  5 |
+| Sachin    | Sharma   |  10000 |                                  6 |
+| Kapil     | Dev      |  10000 |                                  6 |
++-----------+----------+--------+------------------------------------+
+ROWS WITH THE SAME VALUE RECEIVE THE SAME RANK.
+GAPS APPEAR IN THE RANKING IF DUPLICATE VALUES EXIST.
+
+
+SELECT firstname, lastname, salary, 
+DENSE_RANK() OVER (ORDER BY salary DESC) FROM employee;
++-----------+----------+--------+------------------------------------------+
+| firstname | lastname | salary | DENSE_RANK() OVER (ORDER BY salary DESC) |
++-----------+----------+--------+------------------------------------------+
+| Rohit     | Sharma   |  30000 |                                        1 |
+| Shikhar   | Dhawan   |  25000 |                                        2 |
+| Shane     | Warne    |  20000 |                                        3 |
+| Rahul     | Dravid   |  20000 |                                        3 |
+| Saurabh   | Ganguly  |  15000 |                                        4 |
+| Sachin    | Sharma   |  10000 |                                        5 |
+| Kapil     | Dev      |  10000 |                                        5 |
++-----------+----------+--------+------------------------------------------+
+ROWS WITH THE SAME VALUE RECEIVE THE SAME RANK.
+THE NEXT RANK INCREMENTS BY 1, EVEN IF THERE ARE DUPLICATES.
+
+
+
+
+
+
+====================================================================
+
+WHEN SHOULD WE USE THE DENSE_RANK()?
+
+-- CONSIDER THE USECASE WHEN WE HAVE TO FIND THE TOP 3 POSITIONS IN 
+   SOME COMPETITION, THEN AS PER DENSE_RANK(), WE WILL HAVE THE
+   BELOW RANKS.  
+
+CANDIDATE 1 SCORE = 100 ==> 1
+CANDIDATE 2 SCORE = 100 ==> 1
+CANDIDATE 3 SCORE = 98  ==> 2
+CANDIDATE 4 SCORE = 97  ==> 3
+CANDIDATE 5 SCORE = 97  ==> 3
+CANDIDATE 6 SCORE = 96  ==> 4
+
+
+-- FIND THE PERSON HAVING RANK = 4
+
+SELECT * FROM (SELECT firstname, lastname, salary, 
+DENSE_RANK() OVER (ORDER BY salary DESC) AS rownum from employee) temptable WHERE rownum = 4;
+
+
+___________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
 
 
