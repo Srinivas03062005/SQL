@@ -53,7 +53,7 @@ ________________________________________________________________________________
 MOSTLY THESE DATA BASES CAN BE GROUPED INTO 2 CATEGORIES 
 
 1)RELATIONAL DATABASE - THAT ORGANIZES DATA INTO TABLES(ROWS AND COLUMNS) 
-THE TABLES HAVE RELATION BNETWEEN THEM.
+THE TABLES HAVE RELATION BETWEEN THEM.
 EXAMPLES FOR RELATIONAL -> MYSQL,SQL SERVER,POSTRESQL,SQLITE,MARIADB
 
 
@@ -276,9 +276,6 @@ INSERT INTO employee(id,firstname,lastname,age,salary) VALUES (1,'rajesh','sharm
 
 
 
-
-
-
 AUTO INCREMENT
 ______________
 
@@ -294,10 +291,10 @@ CREATE TABLE employee
       PRIMARY KEY(id)
 );
 
+-> A TABLE CAN ONLY HAVE ONE AUTO-INCREMENTING COLUMN
+-> THE AUTO COLUMN MUST BE DEFINED AS A KEY, BUT IT DOESNOT HAVE TO BE THE PRIMARY KEY OR UNIQUE KEY.
 -> "IS USED WITH A COLUMN TO AUTOMATICALLY GENERATE A UNIQUE VALUE WHENEVER A NEW ROW IS INSERTED INTO A 
     TABLE. THIS IS COMMONLY APPLIED TO PRIMARY KEY COLUMNS TO ENSURE THAT EACH RECORD HAS A UNIQUE IDENTIFIER."
- 
-
 
 
 
@@ -2153,5 +2150,300 @@ ________________________________________________________________________________
 
 
 
+IMP TIPS & TRICKS 
+_________________
 
+-> TO GET THE LENGTH OF A STRING USE LENGTH(STRING NAME)
+-> THE ( IS NULL ) COMMAND IS USED TO TEST FOR EMPTY VALUES (NULL VALUES).
+-> THE ( IS NOT NULL ) COMMAND IS USED TO TEST FOR NON-EMPTY VALUES (NOT NULL values).
+-> REPLACE(STRING, OLD_SUBSTRING, NEW_SUBSTRING)
+
+-> DIFFERENCE BETWEEN COUNT(*),COUNT(COLUMNNAME),COUNT(DISTINCT COLUMNNAME)
+   COUNT(*) WILL GIVE THE NUMBER OF ROWS IN A TABLE  
+   COUNT(COLUMNNAME) WILL GIVE THE NUMBER OF ROWS IN A TABLE BUT IF THE VALUE IN A ROW IS NULL IT WON'T COUNT  
+   COUNT(DISTINCT COLUMNNAME) IT WILL GIVE DISTINCT NUMBER OF ROWS IN A TABLE BUT IF THE VALUE IN A ROW IS NULL IT WON'T COUNT  
+
+-> PATTERN MATCHING IN SQL WITH LIKE OPERATOR
+   % ALREADY DONE 
+   - ALREADY DONE
+   [] ANYTHING WITHIN BRACKETS CAN COME
+   EXAMPLE : 'A[NP]%'
+              ANASDV ✓ 
+              APDFBF ✓ 
+              AADFSG ✘ 
+   [^] ANYTHING EXCEPT (WITHIN BRACKETS) CAN COME
+   EXAMPLE : 'A[^NP]%'
+              ANASDV ✘ 
+              APDFBF ✘  
+              AADFSG ✓ 
+   [-]
+   EXAMPLE : 'A[A-D]%'
+              AAASDV ✓ 
+              ACDFBF ✓ 
+              AZDFSG ✘
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-> MEAN 	: AVERAGE OF ALL VALUES	
+   MEDIAN	: MIDDLE VALUE	
+   MODE 	: MOST FREQUENT VALUE
+
+-> TO CALCULATE MEAN WE CAN USE AVG() FUNCTION    
+-> TO CALCULATE MEDIAN  - MEDIAN USING ROW_NUMBER
+   
+
+CREATE TABLE employee 
+(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department_id INT,
+    salary INT,
+    manager_id INT,
+    emp_age INT
+);
+
+INSERT INTO employee (emp_id, emp_name, department_id, salary, manager_id, emp_age) VALUES
+(8, 'Ashish', 200, 5000, 2, 12),
+(7, 'Sanjay', 200, 9000, 2, 13),
+(6, 'Agam', 200, 12000, 2, 14),
+(4, 'Rohit', 100, 5000, 2, 16),
+(3, 'Vikas', 100, 10000, 4, 37),
+(1, 'Ankit', 100, 10000, 4, 39),
+(2, 'Mohit', 100, 15000, 4, 48),
+(9, 'Mukesh', 300, 6000, 6, 51),
+(5, 'Mudit', 200, 12000, 6, 55);
+
+
+select *
+,row_number() over(order by emp_age asc) as rn_asc
+,row_number() over(order by emp_age desc) as rn_desc
+from employee
+order by emp_age;
+
++--------+----------+---------------+--------+------------+---------+--------+---------+
+| emp_id | emp_name | department_id | salary | manager_id | emp_age | rn_asc | rn_desc |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+|      8 | Ashish   |           200 |   5000 |          2 |      12 |      1 |       9 |
+|      7 | Sanjay   |           200 |   9000 |          2 |      13 |      2 |       8 |
+|      6 | Agam     |           200 |  12000 |          2 |      14 |      3 |       7 |
+|      4 | Rohit    |           100 |   5000 |          2 |      16 |      4 |       6 |
+|      3 | Vikas    |           100 |  10000 |          4 |      37 |      5 |       5 |
+|      1 | Ankit    |           100 |  10000 |          4 |      39 |      6 |       4 |
+|      2 | Mohit    |           100 |  15000 |          4 |      48 |      7 |       3 |
+|      9 | Mukesh   |           300 |   6000 |          6 |      51 |      8 |       2 |
+|      5 | Mudit    |           200 |  12000 |          6 |      55 |      9 |       1 |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+
+
+
+select *
+,row_number() over(order by emp_age asc) as rn_asc
+,row_number() over(order by emp_age desc) as rn_desc
+from employee
+order by emp_age desc;
+
++--------+----------+---------------+--------+------------+---------+--------+---------+
+| emp_id | emp_name | department_id | salary | manager_id | emp_age | rn_asc | rn_desc |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+|      5 | Mudit    |           200 |  12000 |          6 |      55 |      9 |       1 |
+|      9 | Mukesh   |           300 |   6000 |          6 |      51 |      8 |       2 |
+|      2 | Mohit    |           100 |  15000 |          4 |      48 |      7 |       3 |
+|      1 | Ankit    |           100 |  10000 |          4 |      39 |      6 |       4 |
+|      3 | Vikas    |           100 |  10000 |          4 |      37 |      5 |       5 |
+|      4 | Rohit    |           100 |   5000 |          2 |      16 |      4 |       6 |
+|      6 | Agam     |           200 |  12000 |          2 |      14 |      3 |       7 |
+|      7 | Sanjay   |           200 |   9000 |          2 |      13 |      2 |       8 |
+|      8 | Ashish   |           200 |   5000 |          2 |      12 |      1 |       9 |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+
+
+
+
+CREATE TABLE employee 
+(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department_id INT,
+    salary INT,
+    manager_id INT,
+    emp_age INT
+);
+
+INSERT INTO employee (emp_id, emp_name, department_id, salary, manager_id, emp_age) VALUES
+(8, 'Ashish', 200, 5000, 2, 12),
+(7, 'Sanjay', 200, 9000, 2, 13),
+(6, 'Agam', 200, 12000, 2, 14),
+(4, 'Rohit', 100, 5000, 2, 16),
+(3, 'Vikas', 100, 10000, 4, 37),
+(1, 'Ankit', 100, 10000, 4, 39),
+(2, 'Mohit', 100, 15000, 4, 48),
+(9, 'Mukesh', 300, 6000, 6, 51),
+(5, 'Mudit', 200, 12000, 6, 55),
+(10,'Rakesh', 300, 7000, 6, 50);
+
+
+
+select *
+,row_number() over(order by emp_age asc) as rn_asc
+,row_number() over(order by emp_age desc) as rn_desc
+from employee
+order by emp_age;
+
++--------+----------+---------------+--------+------------+---------+--------+---------+
+| emp_id | emp_name | department_id | salary | manager_id | emp_age | rn_asc | rn_desc |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+|      8 | Ashish   |           200 |   5000 |          2 |      12 |      1 |      10 |
+|      7 | Sanjay   |           200 |   9000 |          2 |      13 |      2 |       9 |
+|      6 | Agam     |           200 |  12000 |          2 |      14 |      3 |       8 |
+|      4 | Rohit    |           100 |   5000 |          2 |      16 |      4 |       7 |
+|      3 | Vikas    |           100 |  10000 |          4 |      37 |      5 |       6 |
+|      1 | Ankit    |           100 |  10000 |          4 |      39 |      6 |       5 |
+|      2 | Mohit    |           100 |  15000 |          4 |      48 |      7 |       4 |
+|     10 | Rakesh   |           300 |   7000 |          6 |      50 |      8 |       3 |
+|      9 | Mukesh   |           300 |   6000 |          6 |      51 |      9 |       2 |
+|      5 | Mudit    |           200 |  12000 |          6 |      55 |     10 |       1 |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+
+select *
+,row_number() over(order by emp_age asc) as rn_asc
+,row_number() over(order by emp_age desc) as rn_desc
+from employee
+order by emp_age desc;
+
++--------+----------+---------------+--------+------------+---------+--------+---------+
+| emp_id | emp_name | department_id | salary | manager_id | emp_age | rn_asc | rn_desc |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+|      5 | Mudit    |           200 |  12000 |          6 |      55 |     10 |       1 |
+|      9 | Mukesh   |           300 |   6000 |          6 |      51 |      9 |       2 |
+|     10 | Rakesh   |           300 |   7000 |          6 |      50 |      8 |       3 |
+|      2 | Mohit    |           100 |  15000 |          4 |      48 |      7 |       4 |
+|      1 | Ankit    |           100 |  10000 |          4 |      39 |      6 |       5 |
+|      3 | Vikas    |           100 |  10000 |          4 |      37 |      5 |       6 |
+|      4 | Rohit    |           100 |   5000 |          2 |      16 |      4 |       7 |
+|      6 | Agam     |           200 |  12000 |          2 |      14 |      3 |       8 |
+|      7 | Sanjay   |           200 |   9000 |          2 |      13 |      2 |       9 |
+|      8 | Ashish   |           200 |   5000 |          2 |      12 |      1 |      10 |
++--------+----------+---------------+--------+------------+---------+--------+---------+
+
+
+-> ***** 
+   THE WITH CLAUSE IN SQL IS USED TO DEFINE A COMMON TABLE EXPRESSION (CTE), WHICH IS LIKE A TEMPORARY RESULT SET OR TABLE.
+
+with cte as (select *
+,row_number() over(order by emp_age asc) as rn_asc
+,row_number() over(order by emp_age desc) as rn_desc
+from employee
+)
+select avg(emp_age) from cte
+where abs(rn_asc - rn_desc) <=1;
+
+OUTPUT : 38
+
+
+
+with cte as (select *
+,row_number() over(order by emp_age asc) as rn_asc
+,row_number() over(order by emp_age desc) as rn_desc
+from employee
+where emp_id < 10
+)
+select avg(emp_age) from cte
+where abs(rn_asc - rn_desc) <=1;
+
+OUTPUT : 37
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-> TO CALCULATE MODE
+
+
+create table employee
+(
+  id int
+);
+insert into employee values(1),(2),(2),(3),(3),(3),(3),(4),(5);
+select * from employee;
++------+
+| id   |
++------+
+|    1 |
+|    2 |
+|    2 |
+|    3 |
+|    3 |
+|    3 |
+|    3 |
+|    4 |
+|    5 |
++------+
+
+METHOD 1 : 
+   
+select id,count(*) as freq from employee group by id;
++------+------+
+| id   | freq |
++------+------+
+|    1 |    1 |
+|    2 |    2 |
+|    3 |    4 |
+|    4 |    1 |
+|    5 |    1 |
++------+------+
+
+with freq_cte as (select id,count(*) as freq from employee group by id)
+select max(freq) from freq_cte;
+
+OUTPUT : 4
+
+with freq_cte as (select id,count(*) as freq from employee group by id)
+select * from freq_cte
+where freq = (select max(freq) from freq_cte);
+
+OUTPUT :
+
++------+------+
+| id   | freq |
++------+------+
+|    3 |    4 |
++------+------+
+
+
+
+create table employee
+(
+  id int
+);
+insert into employee values(1),(2),(2),(3),(3),(3),(3),(4),(5),(4),(4),(4);
+
+with freq_cte as (select id,count(*) as freq from employee group by id)
+select * from freq_cte
+where freq = (select max(freq) from freq_cte);
++------+------+
+| id   | freq |
++------+------+
+|    3 |    4 |
+|    4 |    4 |
++------+------+
+
+
+
+
+METHOD 2 : 
+
+with freq_cte as (select id,count(*) as freq from employee group by id),rnk_cte as (select *,rank() over(order by freq desc) as rn from freq_cte)
+select * from rnk_cte where rn = 1;
+
++------+------+----+
+| id   | freq | rn |
++------+------+----+
+|    3 |    4 |  1 |
+|    4 |    4 |  1 |
++------+------+----+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
