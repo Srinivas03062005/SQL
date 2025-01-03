@@ -2889,8 +2889,7 @@ PARTITION BY IS OPTIONAL, AND IF YOU DON'T NEED PARTITIONING, YOU CAN LEAVE IT O
 
 DATE AND TIME FUNCTIONS : 
 _________________________
-
-
+-------------------------
 
 
 
