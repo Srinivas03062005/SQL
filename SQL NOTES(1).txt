@@ -363,8 +363,8 @@ ________________________________________________________________________________
 
 
 
-SESSION 4  -> UPDATE,DELETE,ALTER,DDL VD DML
-____________________________________________
+SESSION 4  -> UPDATE ,DELETE, ALTER, DDL vs DML
+_______________________________________________
 
 
 CRUD Operations 
@@ -436,7 +436,7 @@ update employee set lastname = 'sinha' where firstname = 'Maneesh';
 update employee set location = 'Hyderabad' where firstname = 'kapil';
 
 update employee set location = 'Hyderabad';
-IT WILL DO THE UPDATE TO THE ENTIRE TABLE
+-> IT WILL DO THE UPDATE TO THE ENTIRE TABLE
 
 update employee set salary = salary+5000;
 
@@ -512,7 +512,7 @@ student_mname varchar(30),
 student_email varchar(30) NOT NULL,
 student_phone varchar(15) NOT NULL,
 student_alternate_phone varchar(15),
-enrollment_date TIMESTAMP NOT NULL,
+enrollment_date TIMESTAMP DEFAULT NOW() NOT NULL,
 years_of_exp int NOT NULL,
 student_company varchar(30),
 batch_date varchar(30) NOT NULL,
@@ -532,7 +532,7 @@ unique key(student_email)
 Seed Data
 _________
 
-insert into student(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('rohit','sharma','rohit@gmail.com','9191919191',6,'walmart','05-02-2021','linkedin','bangalore');
+insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('rohit','sharma','rohit@gmail.com','9191919191',6,'walmart','05-02-2021','linkedin','bangalore');
 
 insert into students(student_fname,student_lname,student_email,student_phone,years_of_exp,student_company,batch_date,source_of_joining,location) values('virat','kohli','virat@gmail.com','9292929292',3,'flipkart','05-02-2021','linkedin','hyderabad');
 
@@ -555,7 +555,7 @@ select student_id,enrollment_date,student_fname,student_email,years_of_exp,stude
 
 
 Courses Table:
-_____________
+______________
 
 create table courses
 (
@@ -583,7 +583,8 @@ Student Table:
 ______________
 
 
-create table students(
+create table students
+(
 student_id INT AUTO_INCREMENT,
 student_fname varchar(30) NOT NULL,
 student_lname varchar(30) NOT NULL,
@@ -591,7 +592,7 @@ student_mname varchar(30),
 student_email varchar(30) NOT NULL,
 student_phone varchar(15) NOT NULL,
 student_alternate_phone varchar(15),
-enrollment_date TIMESTAMP NOT NULL,
+enrollment_date TIMESTAMP DEFAULT NOW() NOT NULL,
 selected_course INT NOT NULL DEFAULT 1,
 years_of_exp INT NOT NULL,
 student_company varchar(30),
@@ -601,10 +602,6 @@ location varchar(30) NOT NULL,
 PRIMARY KEY(student_id),
 UNIQUE KEY(student_email)
 );
-
-
-
-
 
 insert into students(student_fname,student_lname,student_email,student_phone,selected_course,years_of_exp,student_company,batch_date,source_of_joining,location) values('rohit','sharma','rohit@gmail.com','9191919191',2,6,'walmart','05-02-2021','linkedin','bangalore');
 
@@ -632,11 +629,8 @@ select student_id,enrollment_date,selected_course,student_fname,years_of_exp,stu
 drop table students;
 
 
-
 Creating students Table with Foreign Key constraint:
 ____________________________________________________
-
-
 
 
 create table students
@@ -665,7 +659,6 @@ parent - courses
 child - students
 
 
-
 insert into students(student_fname,student_lname,student_email,student_phone,selected_course,years_of_exp,student_company,batch_date,source_of_joining,location) values('jaspreet','bumrah','jaspreet@gmail.com','9595959595',5,13,'walmart','19-02-2021','quora','chennai');
 -> THERE IS NO COURSE WITH ID 5 , NOW WE CANNOT INSERT IT 
 
@@ -683,16 +676,14 @@ delete from courses where course_id=4;
 
 
 
-The foreign key constraint is used to prevent actions that would destroy links between two tables.
 
-Fore Key is the field in one table that refers to primary key in another table.
+FOREIGN KEY IS THE FIELD IN ONE TABLE THAT REFERS TO PRIMARY KEY IN ANOTHER TABLE.
 
-selected_course is foreign key in students table which refers to course_id(primary key) in courses table.
+SELECTED_COURSE IS FOREIGN KEY IN STUDENTS TABLE WHICH REFERS TO COURSE_ID (PRIMARY KEY) IN COURSES TABLE.
 
-the table with foreign key is called child table and the key with primary key is called reference table or parent table.
+THE TABLE WITH FOREIGN KEY IS CALLED CHILD TABLE, AND THE TABLE WITH PRIMARY KEY IS CALLED REFERENCE TABLE OR PARENT TABLE.
 
-constraint are used to limit the type of data that can go into table
-
+CONSTRAINTS ARE USED TO LIMIT THE TYPE OF DATA THAT CAN GO INTO A TABLE.
 
 ___________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -700,23 +691,9 @@ ________________________________________________________________________________
 SESSION 6  -> DISTINCT,ORDER BY,LIMIT,LIKE 
 __________________________________________
 
-TOPICS THAT ARE GOING TO BE COVERED ARE:
-________________________________________
-
-DISTINCT
-
-ORDER BY
-
-LIMIT
-
-LIKE
 
 
-
-
-
-
-Distinct:
+DISTINCT:
 _________
 
 select DISTINCT location from students;
@@ -728,26 +705,7 @@ select DISTINCT location from students;
 | pune      |
 +-----------+
 
-select DISTINCT student_company from students;
-+-----------------+
-| student_company |
-+-----------------+
-| walmart         |
-| microsoft       |
-| tcs             |
-| wipro           |
-+-----------------+
 
-select DISTINCT source_of_joining from students;
-+-------------------+
-| source_of_joining |
-+-------------------+
-| linkedin          |
-| quora             |
-| friend            |
-| youtube           |
-| google            |
-+-------------------+
 
 ORDER BY:
 _________
@@ -763,8 +721,6 @@ select student_id,enrollment_date,student_fname,student_email,years_of_exp,stude
 |          4 | 2022-07-09 00:03:09 | brain         | brain@gmail.com   |           18 | tcs             | 05-02-2021 | youtube           | pune      |
 |          5 | 2022-07-09 00:03:09 | carl          | carl@gmail.com    |           20 | wipro           | 19-02-2021 | youtube           | pune      |
 +------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
-
-
 
 select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students ORDER BY years_of_exp desc;
 +------------+---------------------+---------------+-------------------+--------------+-----------------+------------+-------------------+-----------+
@@ -827,7 +783,7 @@ select student_fname,years_of_exp  from students ORDER BY 2 ;
 | brain         |           18 |
 | carl          |           20 |
 +---------------+--------------+
-SORTS THE RESULTS BY THE SECOND COLUMN SPECIFIED IN THE SELECT CLAUSE.
+SORTS THE RESULTS BY THE SECOND COLUMN SPECIFIED IN THE SELECT CLAUSE
 
 
 
@@ -842,6 +798,8 @@ select student_fname,years_of_exp  from students ORDER BY 1;
 | rohit         |            6 |
 | saurabh       |           14 |
 +---------------+--------------+
+SORTS THE RESULTS BY THE FIRST COLUMN SPECIFIED IN THE SELECT CLAUSE
+
 
 
 select student_fname,years_of_exp  from students ORDER BY 1 desc;
@@ -870,6 +828,8 @@ select student_fname,years_of_exp  from students ORDER BY years_of_exp,student_f
 +---------------+--------------+
 PRIMARY: By years_of_exp in ascending order.
 SECONDARY: Alphabetically by student_fname for ties in years_of_exp.
+
+
 
 LIMIT:
 ______
@@ -908,9 +868,19 @@ select source_of_joining from students ORDER BY enrollment_date desc LIMIT 5;
    THEN, IT OUTPUTS THE TOP 5 RECORDS FROM THE SORTED RESULTS.
 
 
+
+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+
 select DISTINCT source_of_joining from students ORDER BY enrollment_date desc LIMIT 5;
 -> THIS WONT WORK
 -> REASON WILL BE AVAILABLE IN THE NEXT SESSION 7
+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+
+
+
+
 
 select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students O
 RDER BY enrollment_date desc LIMIT 1;
@@ -950,8 +920,6 @@ select student_id,enrollment_date,student_fname,student_email,years_of_exp,stude
 THIS MATCHES ANY STRING THAT CONTAINS "ra" ANYWHERE IN THE TEXT.
 
 
-
-
  select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname LIKE 'ra%';
 +------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+----------+
 | student_id | enrollment_date     | student_fname | student_email   | years_of_exp | student_company | batch_date | source_of_joining | location |
@@ -962,8 +930,6 @@ THIS MATCHES ANY STRING THAT CONTAINS "ra" ANYWHERE IN THE TEXT.
 THIS MATCHES ANY STRING THAT STARTS WITH "ra".
 
 
-
-
 select student_id,enrollment_date,student_fname,student_email,years_of_exp,student_company,batch_date,source_of_joining,location from students where student_fname LIKE '%it';
 +------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
 | student_id | enrollment_date     | student_fname | student_email   | years_of_exp | student_company | batch_date | source_of_joining | location  |
@@ -972,7 +938,6 @@ select student_id,enrollment_date,student_fname,student_email,years_of_exp,stude
 +------------+---------------------+---------------+-----------------+--------------+-----------------+------------+-------------------+-----------+
 '%it'
 THIS MATCHES ANY STRING THAT ENDS WITH "it".
-
 
 
 
@@ -1011,9 +976,18 @@ SESSION 7 -> ORDER OF EXECUTION
 _______________________________
 
 
-select DISTINCT source_of_joining from students ORDER BY enrollment_date desc;
+-> IN SQL QUERIES, CLAUSES ARE EXECUTED BASED ON THE FOLLOWING ORDER :
 
-BOTH DISTINCT & ORDER BY 
+FROM CLAUSE
+JOIN CLAUSE
+WHERE CLAUSE
+GROUP BY CLAUSE
+HAVING CLAUSE
+SELECT CLAUSE
+DISTINCT CLAUSE
+ORDER BY CLAUSE
+LIMIT CLAUSE
+
 
 
 CASE 1:
@@ -1023,10 +997,10 @@ select source_of_joining from students
 ORDER OF EXECUTION:
 ___________________
 
-1) FROM (LOADING THE TABLE)
+1) FROM
 -> THE SQL ENGINE IDENTIFIES THE SOURCE TABLE, WHICH IS students. IT PREPARES TO RETRIEVE DATA FROM THIS TABLE.
 
-2) SELECT (PROJECTING source_of_joining)
+2) SELECT 
 -> THE ENGINE SELECTS THE COLUMNS SPECIFIED IN THE SELECT CLAUSE, WHICH ARE source_of_joining. 
    THIS IS THE VALUE THAT WILL BE RETURNED IN THE RESULT SET.
  
@@ -1039,10 +1013,8 @@ select source_of_joining, enrollment_date from students.
 ORDER OF EXECUTION:
 ___________________
 
-1) FROM (LOADING THE TABLE)
-
-2) SELECT (PROJECTING source_of_joining AND source_of_joining)
-
+1) FROM
+2) SELECT
 
 
 
@@ -1053,15 +1025,9 @@ select source_of_joining, enrollment_date from students order by enrollment_date
 ORDER OF EXECUTION:
 ___________________
 
-1) FROM (LOADING THE TABLE)
-
-2) SELECT (PROJECTING source_of_joining AND source_of_joining)
-
-3) ORDER BY (BASED ON enrollment_date IT WILL ORDER BY)
--> THE ROWS ARE ORDERED BASED ON THE enrollment_date COLUMN IN ASCENDING ORDER BY DEFAULT (BECAUSE ASC IS THE 
-   DEFAULT SORTING ORDER IF NOT SPECIFIED). THIS STEP HAPPENS AFTER THE DATA IS SELECTED AND BEFORE IT IS RETURNED.
-
-
+1) FROM 
+2) SELECT 
+3) ORDER BY 
 
 
 CASE 4:
@@ -1071,17 +1037,12 @@ select source_of_joining from students order by enrollment_date;
 ORDER OF EXECUTION:
 ___________________
 
-1) FROM (LOADING THE TABLE)
-   select * from students;
-
-2) SELECT (PROJECTING source_of_joining , enrollment_date)
-   select source_of_joining,enrollment_date from students;
-
-3) ORDER BY (BASED ON enrollment_date IT WILL ORDER BY)
-   select source_of_joining from students order by enrollment_date;
+1) FROM 
+2) SELECT 
+3) ORDER BY
 
 
-
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
 
 CASE 5:
 
@@ -1091,29 +1052,27 @@ select distinct source_of_joining from students order by enrollment_date;
 ORDER OF EXECUTION:
 ___________________
 
-1) FROM (LOADING THE TABLE)
-   select * from students;
-
-2) SELECT (PROJECTING source_of_joining , enrollment_date)
-   select source_of_joining,enrollment_date from students;
-
+1) FROM 
+2) SELECT 
 3) DISTINCT
-  WE WANT THIS TO BE HAPPEN ->  select distinct source_of_joining from students;  
-  BUT THE RESULT IS THIS -> select distinct source_of_joining,enrollment_date from students;
-  HERE DISTINCT IS HAPPENING ON THE COMBINATION OF THESE
+4) ORDER BY 
 
-4) ORDER BY (BASED ON enrollment_date IT WILL ORDER BY)
+student_id	source_of_joining	enrollment_date
+1	           Online	         2024-01-15
+2		   Walk-in               2024-01-10
+3	           Online	         2024-01-12
+4	           Recommendation	 2024-01-14
+5	           Walk-in	         2024-01-11
+The DISTINCT operation will return the unique source_of_joining values: Online, Walk-in, and Recommendation.
+
+For the Online group, you have two different enrollment_date values: 2024-01-12 and 2024-01-15.
+For the Walk-in group, you have two different enrollment_date values: 2024-01-10 and 2024-01-11.
+For the Recommendation group, there is only one enrollment_date: 2024-01-14.
+SQL doesn’t know which enrollment_date to use for ordering each distinct source_of_joining, and it will throw an error.
+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
 
 
-
-
-
-*****
-*****
-*****
-*****
-*****
--> STILL SMALL DOUBT ABOUT CASE 5
 
 ___________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -1128,7 +1087,6 @@ _____________________
 
 -> AGGREGATE FUNCTIONS IN SQL ARE USED TO PERFORM CALCULATIONS ON A 
    SET OF VALUES AND RETURN A SINGLE RESULT.
-
 
 
 
@@ -1187,8 +1145,8 @@ select count(*) from students where batch_date like '19%';
 +----------+
 
 
-GROUP BY VVIMP:
-______________
+GROUP BY   VVIMP:
+_________________
 
 
 WHAT I WANT IS TO KNOW THAT HOW MANY PEOPLE HAVE JOINED MY COURSE THROUGH
@@ -1211,6 +1169,8 @@ NEEDS TO GROUP BY SOURCE_OF_JOINING
 | quora             |        1 |
 | youtube           |        2 |
 +-------------------+----------+
+COUNT(*): THIS IS AN AGGREGATE FUNCTION THAT COUNTS THE NUMBER OF ROWS IN EACH GROUP. IT COUNTS HOW MANY STUDENTS BELONG TO EACH SOURCE_OF_JOINING.
+
 
 select location, count(*) from students group by location;
 +-----------+----------+
@@ -1220,11 +1180,31 @@ select location, count(*) from students group by location;
 | chennai   |        2 |
 | pune      |        3 |
 +-----------+----------+
+COUNT(*): THIS IS AN AGGREGATE FUNCTION THAT COUNTS THE NUMBER OF ROWS IN EACH GROUP. IT COUNTS HOW MANY STUDENTS BELONG TO EACH LOCATION.
 
 
- 
+
+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+
 select location, count(*) from students group by source_of_joining;
 -> THIS WILL NOT WORK 
+
+-> REASON : 
+Why this query will not work:
+The GROUP BY clause groups the results by the specified column(s), and in your query, you are grouping by source_of_joining.
+However, in the SELECT clause, you are selecting the location column, which is not part of the GROUP BY clause.
+In SQL, when using GROUP BY, all non-aggregated columns in the SELECT statement must be included in the GROUP BY clause. This is because SQL needs to know how to group all selected columns.
+
+In your case:
+location is not included in the GROUP BY clause, but it is being selected in the SELECT statement.
+This causes SQL to be unable to determine how to handle the location column for each group formed by source_of_joining, resulting in an error.
+
+When you use GROUP BY source_of_joining and select the location column in the SELECT clause, SQL encounters an issue because there could be multiple location values within each group formed by source_of_joining. SQL doesn't know which location to display in the result because it needs to have some rule to determine how to handle multiple location values within the same group.
+
+SQL will encounter an issue because, for the Online group, there are multiple location values (New York, Boston, Chicago), and it won't know which one to show for that group.
+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
 
 
 
@@ -1261,80 +1241,6 @@ select batch_date,selected_course,count(*) from students GROUP BY batch_date,sel
 +------------+-----------------+----------+
 
 
-MIN & MAX:
-__________
-
-select MIN(years_of_exp) from students;
-+-------------------+
-| MIN(years_of_exp) |
-+-------------------+
-|                 6 |
-+-------------------+
-
-select MAX(years_of_exp) from students;
-+-------------------+
-| MAX(years_of_exp) |
-+-------------------+
-|                20 |
-+-------------------+
-
-select MIN(years_of_exp),student_fname from students;
--> THIS WILL NOT WORK
--> IF IT DOES WORK, IT MIGHT RETURN A STUDENT_FNAME FOR THE STUDENT WITH THE 
-   MINIMUM YEARS_OF_EXP, BUT THIS BEHAVIOR IS NOT RELIABLE OR STANDARD IN SQL.
-
-   EXAMPLE DATA : 
-
-   years_of_exp	 student_fname
-   3	           Alice
-   2	           Bob
-   5	           Charlie
-   4	           Dave
-  
-   POSSIBLE OUTPUT :
-
-   MIN(years_of_exp)	student_fname
-         2	             Bob
-
-
--> REASON : 
-   WHEN USING AN AGGREGATE FUNCTION LIKE MAX(), ANY OTHER COLUMNS IN THE SELECT STATEMENT 
-   MUST BE EITHER AGGREGATED (E.G., MAX(), SUM(), ETC.) OR INCLUDED IN A GROUP BY CLAUSE
-
-select MAX(years_of_exp),student_fname from students;
--> THIS WILL NOT WORK
--> REASON : 
-   WHEN USING AN AGGREGATE FUNCTION LIKE MAX(), ANY OTHER COLUMNS IN THE SELECT STATEMENT 
-   MUST BE EITHER AGGREGATED (E.G., MAX(), SUM(), ETC.) OR INCLUDED IN A GROUP BY CLAUSE
-
-
-INSTEAD USE THIS 
-
-MIN : select student_fname from students order by years_of_exp limit 1;
-
-MAX : select student_fname from students order by years_of_exp desc limit 1;
-
-
-
-
-EACH SOURCE OF JOINING I WANT TO GET MAX : 
-
-select source_of_joining,MAX(years_of_exp) from students group by source_of_joining;
-+-------------------+-------------------+
-| source_of_joining | max(years_of_exp) |
-+-------------------+-------------------+
-| friend            |                15 |
-| google            |                14 |
-| linkedin          |                 6 |
-| quora             |                 8 |
-| youtube           |                20 |
-+-------------------+-------------------+
-
-
-
-
-
-
 SUM:
 ____
 
@@ -1363,25 +1269,72 @@ select source_of_joining, AVG(years_of_exp) from students group by source_of_joi
 | youtube           |           19.0000 |
 +-------------------+-------------------+
 
-select location, AVG(years_of_exp) from students group by location;
-+-----------+-------------------+
-| location  | avg(years_of_exp) |
-+-----------+-------------------+
-| bangalore |            6.0000 |
-| chennai   |           11.0000 |
-| pune      |           17.6667 |
-+-----------+-------------------+
+
+MIN & MAX:
+__________
+
+select MIN(years_of_exp) from students;
++-------------------+
+| MIN(years_of_exp) |
++-------------------+
+|                 6 |
++-------------------+
+
+select MAX(years_of_exp) from students;
++-------------------+
+| MAX(years_of_exp) |
++-------------------+
+|                20 |
++-------------------+
 
 
-select student_company, AVG(years_of_exp) from students group by student_company;
-+-----------------+-------------------+
-| student_company | avg(years_of_exp) |
-+-----------------+-------------------+
-| microsoft       |           15.0000 |
-| tcs             |           18.0000 |
-| walmart         |            7.0000 |
-| wipro           |           17.0000 |
-+-----------------+-------------------+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+
+
+***** select MIN(years_of_exp),student_fname from students;
+
+-> THIS WILL NOT WORK
+-> REASON : 
+           
+            This query will not work because you are trying to use an aggregate function MIN() on the column years_of_exp, but you are also selecting student_fname, a non-aggregated column. 
+            In SQL, when you use aggregate functions like MIN(), MAX(), SUM(),etc., all other columns in the SELECT statement must either be aggregated or included in a GROUP BY clause.
+
+student_fname	years_of_exp
+John	            2
+Alice	            3
+Bob	            1
+Charlie	            2
+
+The minimum years_of_exp, which will return 1 (since 1 is the lowest value).
+However, SQL doesn't know how to handle this query because it cannot determine which student_fname corresponds to the minimum years_of_exp
+
+
+
+⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐
+
+
+
+INSTEAD USE THIS 
+
+MIN : select student_fname,years_of_exp from students order by years_of_exp limit 1;
+
+MAX : select student_fname,years_of_exp from students order by years_of_exp desc limit 1;
+
+
+
+
+EACH SOURCE OF JOINING I WANT TO GET MAX : 
+
+select source_of_joining,MAX(years_of_exp) from students group by source_of_joining;
++-------------------+-------------------+
+| source_of_joining | max(years_of_exp) |
++-------------------+-------------------+
+| friend            |                15 |
+| google            |                14 |
+| linkedin          |                 6 |
+| quora             |                 8 |
+| youtube           |                20 |
++-------------------+-------------------+
 
 
 ___________________________________________________________________________________________________________________________________________________________________________________________
@@ -1403,7 +1356,7 @@ PRIMARY KEY(course_id)
 
 
 -> DECIMAL(3,1)
-   3 DIGITS TOTAL
+   3 UPTO 3 DIGITS
    1 DIGIT AFTER THE DECIMAL POINT
 
 
@@ -1411,7 +1364,7 @@ PRIMARY KEY(course_id)
 insert into courses_new(course_name,course_duration_months,course_fee) values
 ('bigdata', 6.5, 50000),
 ('webdevelopment', 3.5, 20000),
-('datascience', 6, 40000),;
+('datascience', 6, 40000);
 
 update courses_new set course_fee = 40000 where course_id = 2;
 
@@ -1526,6 +1479,7 @@ select * from students where years_of_exp not between 8 and 12;
 LIST OF STUDENTS FOR FLIPKART, WALMART, OR MICROSOFT.
 select * from students where student_company='flipkart' or student_company='walmart' or student_company='microsoft';
 select * from students where student_company in ('flipkart','walmart','microsoft');
+
 select * from students where student_company not in ('flipkart','walmart','microsoft');
 
 
@@ -1668,16 +1622,17 @@ FULL OUTER JOIN
 * FULL OUTER JOIN = LEFT OUTER JOIN UNION RIGHT OUTER JOIN
 * IN SQL, WE DO NOT HAVE KEYWORD FULL FOR FULL OUTER JOIN, SO WE WILL DO UNION OF LEFT OUTER JOIN AND RIGHT OUTER JOIN
 
-SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest LEFT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
+SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest LEFT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id
 UNION
 SELECT students_latest.student_fname, students_latest.student_lname,courses_latest.course_name FROM students_latest RIGHT JOIN courses_latest ON students_latest.selected_course = courses_latest.course_id;
 
 
 
 
-----------
-CROSS JOIN
-----------
+--------------------
+CROSS JOIN   NOT IMP
+--------------------
+
 CROSS JOIN IN SQL RETURNS THE CARTESIAN PRODUCT OF TWO TABLES, MEANING IT COMBINES EACH 
 RECORD FROM THE FIRST TABLE WITH EVERY RECORD FROM THE SECOND TABLE. IT DOES NOT REQUIRE 
 A CONDITION OR ON CLAUSE.
@@ -1711,7 +1666,7 @@ _____________________________________________
 
 
 
--- FIND THE source_of_joining THROUGH WHICH STUDENT HAS ENROLLED
+-- FIND THE COUNT OF source_of_joining THROUGH WHICH STUDENT HAS ENROLLED
 SELECT source_of_joining, COUNT(*) AS total from students GROUP BY source_of_joining;
 
 -- FIND THE source_of_joining THROUGH WHICH MORE THAN 1 STUDENT HAS ENROLLED
@@ -1914,7 +1869,6 @@ FROM employee;
 | Rohit     | Sharma   | Hyderabad |     2 | 35000.0000 |
 | Sunil     | Shetty   | Hyderabad |     2 | 35000.0000 |
 +-----------+----------+-----------+-------+------------+
-
 
 ___________________________________________________________________________________________________________________________________________________________________________________________
 
@@ -2147,8 +2101,8 @@ DENSE_RANK() OVER (ORDER BY salary DESC) AS rownum from employee) temptable WHER
 
 
 ___________________________________________________________________________________________________________________________________________________________________________________________
-
-
+ 
+!=    AND     NOT IN    🔥
 
 IMP TIPS & TRICKS 
 _________________
@@ -2157,6 +2111,29 @@ _________________
 -> THE ( IS NULL ) COMMAND IS USED TO TEST FOR EMPTY VALUES (NULL VALUES).
 -> THE ( IS NOT NULL ) COMMAND IS USED TO TEST FOR NON-EMPTY VALUES (NOT NULL values).
 -> REPLACE(STRING, OLD_SUBSTRING, NEW_SUBSTRING)
+
+
+
+
+
+-> THE DIFFERENCE BETWEEN ISNULL AND IFNULL
+   In MySQL, ISNULL and IFNULL are both used to handle NULL values, but they are used in different contexts and have different syntax and purposes:
+
+ISNULL():
+
+SELECT ISNULL(column_name) FROM table_name;
+This will return 1 if column_name is NULL, and 0 if it is not NULL.
+
+
+IFNULL():
+
+SELECT IFNULL(column_name, 'Default Value') FROM table_name;
+This will return 'Default Value' if column_name is NULL, and return the value of column_name if it is not NULL.
+   
+
+
+
+
 
 -> DIFFERENCE BETWEEN COUNT(*),COUNT(COLUMNNAME),COUNT(DISTINCT COLUMNNAME)
    COUNT(*) WILL GIVE THE NUMBER OF ROWS IN A TABLE  
@@ -2182,6 +2159,18 @@ _________________
               ACDFBF ✓ 
               AZDFSG ✘
 
+-> UPPERCASE,LOWERCASE,SUBSTRING,CONCATENATE
+
+UPPERCASE   : 
+             UPPER('hello world')
+LOWERCASE   : 
+             LOWER('HELLO WORLD')
+SUBSTRING   : 
+             SUBSTRING(STRING, START, LENGTH)
+             STARTING POSITION (1 - BASED)
+             LENGTH IN OPTIONAL
+CONCATENATE : 
+             CONCAT(STRING1, STRING2, ...)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2446,4 +2435,477 @@ select * from rnk_cte where rn = 1;
 +------+------+----+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+SQL AGGREGATIONS ZERO TO HERO 
+
+CREATE TABLE sales 
+(
+    salesperson_id INT,
+    order_number INT,
+    order_date DATE,
+    amount INT
+);
+
+INSERT INTO sales (salesperson_id, order_number, order_date, amount) VALUES
+(1, 30, '1995-07-14', 460),
+(7, 50, '1998-02-03', 600),
+(2, 40, '1998-01-29', 2400),
+(7, 60, '1998-03-02', 720),
+(2, 10, '1996-08-02', 540),
+(7, 70, '1998-05-06', 150),
+(8, 20, '1999-01-30', 1800);
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over() from sales;
+
++----------------+--------------+------------+--------+--------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over() |
++----------------+--------------+------------+--------+--------------------+
+|              1 |           30 | 1995-07-14 |    460 |               6670 |
+|              7 |           50 | 1998-02-03 |    600 |               6670 |
+|              2 |           40 | 1998-01-29 |   2400 |               6670 |
+|              7 |           60 | 1998-03-02 |    720 |               6670 |
+|              2 |           10 | 1996-08-02 |    540 |               6670 |
+|              7 |           70 | 1998-05-06 |    150 |               6670 |
+|              8 |           20 | 1999-01-30 |   1800 |               6670 |
++----------------+--------------+------------+--------+--------------------+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(partition by salesperson_id) from sales;
+
++----------------+--------------+------------+--------+-----------------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(partition by salesperson_id) |
++----------------+--------------+------------+--------+-----------------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                           460 |
+|              2 |           40 | 1998-01-29 |   2400 |                                          2940 |
+|              2 |           10 | 1996-08-02 |    540 |                                          2940 |
+|              7 |           50 | 1998-02-03 |    600 |                                          1470 |
+|              7 |           60 | 1998-03-02 |    720 |                                          1470 |
+|              7 |           70 | 1998-05-06 |    150 |                                          1470 |
+|              8 |           20 | 1999-01-30 |   1800 |                                          1800 |
++----------------+--------------+------------+--------+-----------------------------------------------+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date) from sales;
+
++----------------+--------------+------------+--------+---------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(order by order_date) |
++----------------+--------------+------------+--------+---------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                   460 |
+|              2 |           10 | 1996-08-02 |    540 |                                  1000 |
+|              2 |           40 | 1998-01-29 |   2400 |                                  3400 |
+|              7 |           50 | 1998-02-03 |    600 |                                  4000 |
+|              7 |           60 | 1998-03-02 |    720 |                                  4720 |
+|              7 |           70 | 1998-05-06 |    150 |                                  4870 |
+|              8 |           20 | 1999-01-30 |   1800 |                                  6670 |
++----------------+--------------+------------+--------+---------------------------------------+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(partition by salesperson_id order by order_date) from sales;
+
++----------------+--------------+------------+--------+-------------------------------------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(partition by salesperson_id order by order_date) |
++----------------+--------------+------------+--------+-------------------------------------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                                               460 |
+|              2 |           10 | 1996-08-02 |    540 |                                                               540 |
+|              2 |           40 | 1998-01-29 |   2400 |                                                              2940 |
+|              7 |           50 | 1998-02-03 |    600 |                                                               600 |
+|              7 |           60 | 1998-03-02 |    720 |                                                              1320 |
+|              7 |           70 | 1998-05-06 |    150 |                                                              1470 |
+|              8 |           20 | 1999-01-30 |   1800 |                                                              1800 |
++----------------+--------------+------------+--------+-------------------------------------------------------------------+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date rows between 2 preceding and current row) from sales;
+
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(order by order_date rows between 2 preceding and current row) |
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                                                            460 |
+|              2 |           10 | 1996-08-02 |    540 |                                                                           1000 |
+|              2 |           40 | 1998-01-29 |   2400 |                                                                           3400 |
+|              7 |           50 | 1998-02-03 |    600 |                                                                           3540 |
+|              7 |           60 | 1998-03-02 |    720 |                                                                           3720 |
+|              7 |           70 | 1998-05-06 |    150 |                                                                           1470 |
+|              8 |           20 | 1999-01-30 |   1800 |                                                                           2670 |
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date rows between 2 preceding and 1 preceding) from sales;
+
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(order by order_date rows between 2 preceding and 1 preceding) |
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                                                           NULL |
+|              2 |           10 | 1996-08-02 |    540 |                                                                            460 |
+|              2 |           40 | 1998-01-29 |   2400 |                                                                           1000 |
+|              7 |           50 | 1998-02-03 |    600 |                                                                           2940 |
+|              7 |           60 | 1998-03-02 |    720 |                                                                           3000 |
+|              7 |           70 | 1998-05-06 |    150 |                                                                           1320 |
+|              8 |           20 | 1999-01-30 |   1800 |                                                                            870 |
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date rows between 1 preceding and 1 following) from sales;
+
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(order by order_date rows between 1 preceding and 1 following) |
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                                                           1000 |
+|              2 |           10 | 1996-08-02 |    540 |                                                                           3400 |
+|              2 |           40 | 1998-01-29 |   2400 |                                                                           3540 |
+|              7 |           50 | 1998-02-03 |    600 |                                                                           3720 |
+|              7 |           60 | 1998-03-02 |    720 |                                                                           1470 |
+|              7 |           70 | 1998-05-06 |    150 |                                                                           2670 |
+|              8 |           20 | 1999-01-30 |   1800 |                                                                           1950 |
++----------------+--------------+------------+--------+--------------------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date rows between unbounded preceding and current row) from sales;
+
+
++----------------+--------------+------------+--------+----------------------------------------------------------------------------------------+
+| salesperson_id | order_number | order_date | amount | sum(amount) over(order by order_date rows between unbounded preceding and current row) |
++----------------+--------------+------------+--------+----------------------------------------------------------------------------------------+
+|              1 |           30 | 1995-07-14 |    460 |                                                                                    460 |
+|              2 |           10 | 1996-08-02 |    540 |                                                                                   1000 |
+|              2 |           40 | 1998-01-29 |   2400 |                                                                                   3400 |
+|              7 |           50 | 1998-02-03 |    600 |                                                                                   4000 |
+|              7 |           60 | 1998-03-02 |    720 |                                                                                   4720 |
+|              7 |           70 | 1998-05-06 |    150 |                                                                                   4870 |
+|              8 |           20 | 1999-01-30 |   1800 |                                                                                   6670 |
++----------------+--------------+------------+--------+----------------------------------------------------------------------------------------+
+
+
+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(partition by salesperson_id order by order_date rows between 1 preceding and current row) as sum from sales;
+
+
++----------------+--------------+------------+--------+------+
+| salesperson_id | order_number | order_date | amount | sum  |
++----------------+--------------+------------+--------+------+
+|              1 |           30 | 1995-07-14 |    460 |  460 |
+|              2 |           10 | 1996-08-02 |    540 |  540 |
+|              2 |           40 | 1998-01-29 |   2400 | 2940 |
+|              7 |           50 | 1998-02-03 |    600 |  600 |
+|              7 |           60 | 1998-03-02 |    720 | 1320 |
+|              7 |           70 | 1998-05-06 |    150 |  870 |
+|              8 |           20 | 1999-01-30 |   1800 | 1800 |
++----------------+--------------+------------+--------+------+
+
+
+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date rows between 1 preceding and 1 preceding) as sum from sales;
+
+
++----------------+--------------+------------+--------+------+
+| salesperson_id | order_number | order_date | amount | sum  |
++----------------+--------------+------------+--------+------+
+|              1 |           30 | 1995-07-14 |    460 | NULL |
+|              2 |           10 | 1996-08-02 |    540 |  460 |
+|              2 |           40 | 1998-01-29 |   2400 |  540 |
+|              7 |           50 | 1998-02-03 |    600 | 2400 |
+|              7 |           60 | 1998-03-02 |    720 |  600 |
+|              7 |           70 | 1998-05-06 |    150 |  720 |
+|              8 |           20 | 1999-01-30 |   1800 |  150 |
++----------------+--------------+------------+--------+------+
+
+
+
+
+
+
+
+
+select salesperson_id,order_number,order_date,amount,sum(amount) over(order by order_date rows between 1 following and 1 following) as sum from sales;
+
++----------------+--------------+------------+--------+------+
+| salesperson_id | order_number | order_date | amount | sum  |
++----------------+--------------+------------+--------+------+
+|              1 |           30 | 1995-07-14 |    460 |  540 |
+|              2 |           10 | 1996-08-02 |    540 | 2400 |
+|              2 |           40 | 1998-01-29 |   2400 |  600 |
+|              7 |           50 | 1998-02-03 |    600 |  720 |
+|              7 |           60 | 1998-03-02 |    720 |  150 |
+|              7 |           70 | 1998-05-06 |    150 | 1800 |
+|              8 |           20 | 1999-01-30 |   1800 | NULL |
++----------------+--------------+------------+--------+------+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SELF JOIN 
+_________
+
+Q) FIND EMPLOYEES WITH SALARY MORE THAN THEIR MANAGERS SALARY
+
+
+TABLE NAME : EMP
+-------------------------------------------
+| emp_id | emp_name | salary | manager_id |
+|--------|----------|--------|------------|
+| 1      | Ankit    | 10000  | 4          |
+| 2      | Mohit    | 15000  | 5          |
+| 3      | Vikas    | 10000  | 4          |
+| 4      | Rohit    | 5000   | 2          |
+| 5      | Mudit    | 12000  | 6          |
+| 6      | Agam     | 12000  | 2          |
+| 7      | Sanjay   | 9000   | 2          |
+| 8      | Ashish   | 5000   | 2          |
+-------------------------------------------
+
+TABLE NAME : MGR
+-------------------------------------------
+| emp_id | emp_name | salary | manager_id |
+|--------|----------|--------|------------|
+| 1      | Ankit    | 10000  | 4          |
+| 2      | Mohit    | 15000  | 5          |
+| 3      | Vikas    | 10000  | 4          |
+| 4      | Rohit    | 5000   | 2          |
+| 5      | Mudit    | 12000  | 6          |
+| 6      | Agam     | 12000  | 2          |
+| 7      | Sanjay   | 9000   | 2          |
+| 8      | Ashish   | 5000   | 2          |
+-------------------------------------------
+JOINING    MANAGER_ID OF EMP TABLE     WITH     EMP_ID OF MGR TABLE 
+
+
+
+CREATE TABLE EMP 
+(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary INT,
+    manager_id INT
+);
+
+INSERT INTO EMP (emp_id, emp_name, salary, manager_id) VALUES
+(1, 'Ankit', 10000, 4),
+(2, 'Mohit', 15000, 5),
+(3, 'Vikas', 10000, 4),
+(4, 'Rohit', 5000, 2),
+(5, 'Mudit', 12000, 6),
+(6, 'Agam', 12000, 2),
+(7, 'Sanjay', 9000, 2),
+(8, 'Ashish', 5000, 2);
+
+
+select e.emp_id,e.emp_name,m.emp_name as manager_name,e.salary,m.salary as manager_salary  from EMP e inner join EMP m on e.manager_id = m.emp_id;
+
++--------+----------+--------------+--------+----------------+
+| emp_id | emp_name | manager_name | salary | manager_salary |
++--------+----------+--------------+--------+----------------+
+|      1 | Ankit    | Rohit        |  10000 |           5000 |
+|      2 | Mohit    | Mudit        |  15000 |          12000 |
+|      3 | Vikas    | Rohit        |  10000 |           5000 |
+|      4 | Rohit    | Mohit        |   5000 |          15000 |
+|      5 | Mudit    | Agam         |  12000 |          12000 |
+|      6 | Agam     | Mohit        |  12000 |          15000 |
+|      7 | Sanjay   | Mohit        |   9000 |          15000 |
+|      8 | Ashish   | Mohit        |   5000 |          15000 |
++--------+----------+--------------+--------+----------------+
+
+
+
+ANS)
+select e.emp_id,e.emp_name,m.emp_name as manager_name,e.salary,m.salary as manager_salary  from EMP e inner join EMP m on e.manager_id = m.emp_id where e.salary > m.salary;
+
++--------+----------+--------------+--------+----------------+
+| emp_id | emp_name | manager_name | salary | manager_salary |
++--------+----------+--------------+--------+----------------+
+|      1 | Ankit    | Rohit        |  10000 |           5000 |
+|      2 | Mohit    | Mudit        |  15000 |          12000 |
+|      3 | Vikas    | Rohit        |  10000 |           5000 |
++--------+----------+--------------+--------+----------------+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+QUESTION BASED ON FULL OUTER JOIN : 
+-----------------------------------
+-> ***MYSQL DOESNOT SUPPORT FULL OUTER JOIN
+
+
+Q) FIND THE CHANGE IN EMPLOYEES STATUS
+
+
+
+create table emp_2020
+(
+   emp_id int primary key,
+   designation varchar(50)
+);
+insert into emp_2020 values(1,'Trainee'),(2,'Developer'),(3,'Senior Developer'),(4,'Manager');
+
+create table emp_2021
+(
+   emp_id int primary key,
+   designation varchar(50)
+);
+insert into emp_2021 values(1,'Developer'),(2,'Developer'),(3,'Manager'),(5,'Trainee');
+
+select * from emp_2020;
++--------+------------------+
+| emp_id | designation      |
++--------+------------------+
+|      1 | Trainee          |
+|      2 | Developer        |
+|      3 | Senior Developer |
+|      4 | Manager          |
++--------+------------------+
+
+
+select * from emp_2021;
++--------+-------------+
+| emp_id | designation |
++--------+-------------+
+|      1 | Developer   |
+|      2 | Developer   |
+|      3 | Manager     |
+|      5 | Trainee     |
++--------+-------------+
+
+
+select e20.*,e21.* from emp_2020 e20 left outer join emp_2021 e21 on e20.emp_id = e21.emp_id
+union
+select e20.*,e21.* from emp_2020 e20 right outer join emp_2021 e21 on e20.emp_id = e21.emp_id;
+
++--------+------------------+--------+-------------+
+| emp_id | designation      | emp_id | designation |
++--------+------------------+--------+-------------+
+|      1 | Trainee          |      1 | Developer   |
+|      2 | Developer        |      2 | Developer   |
+|      3 | Senior Developer |      3 | Manager     |
+|      4 | Manager          |   NULL | NULL        |
+|   NULL | NULL             |      5 | Trainee     |
++--------+------------------+--------+-------------+
+
+
+
+
+select e20.*,e21.*,case when e20.designation!=e21.designation then 'Promoted'
+when e21.designation is null then 'Resigned'
+else 'New' end as comment
+from emp_2020 e20 left outer join emp_2021 e21 on e20.emp_id = e21.emp_id where ifnull(e20.designation,'xxx') != ifnull(e21.designation,'yyy')
+
+union
+
+select e20.*,e21.*,case when e20.designation!=e21.designation then 'Promoted'
+when e21.designation is null then 'Resigned'
+else 'New' end as comment
+from emp_2020 e20 right outer join emp_2021 e21 on e20.emp_id = e21.emp_id where ifnull(e20.designation,'xxx') != ifnull(e21.designation,'yyy');
++--------+------------------+--------+-------------+----------+
+| emp_id | designation      | emp_id | designation | comment  |
++--------+------------------+--------+-------------+----------+
+|      1 | Trainee          |      1 | Developer   | Promoted |
+|      3 | Senior Developer |      3 | Manager     | Promoted |
+|      4 | Manager          |   NULL | NULL        | Resigned |
+|   NULL | NULL             |      5 | Trainee     | New      |
++--------+------------------+--------+-------------+----------+
+
+
+
+
+
+select ifnull(e20.emp_id,e21.emp_id) as emp_id , case when e20.designation!=e21.designation then 'Promoted'
+when e21.designation is null then 'Resigned'
+else 'New' end as comment
+from emp_2020 e20 left outer join emp_2021 e21 on e20.emp_id = e21.emp_id where ifnull(e20.designation,'xxx') != ifnull(e21.designation,'yyy')
+union
+select ifnull(e20.emp_id,e21.emp_id) as emp_id , case when e20.designation!=e21.designation then 'Promoted'
+when e21.designation is null then 'Resigned'
+else 'New' end as comment
+from emp_2020 e20 right outer join emp_2021 e21 on e20.emp_id = e21.emp_id where ifnull(e20.designation,'xxx') != ifnull(e21.designation,'yyy');
++--------+----------+
+| emp_id | comment  |
++--------+----------+
+|      1 | Promoted |
+|      3 | Promoted |
+|      4 | Resigned |
+|      5 | New      |
++--------+----------+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+LAG()  AND LEAD() FUNCTIONS IN MYSQL
+____________________________________
+
+-> THE LAG() FUNCTION IS USED TO GET THE VALUE OF A COLUMN FROM THE PREVIOUS ROW IN THE RESULT SET.
+
+LAG(COLUMN_NAME, OFFSET, DEFAULT_VALUE) OVER (PARTITION BY COLUMN_NAME ORDER BY COLUMN_NAME)
+COLUMN_NAME: THE COLUMN WHOSE VALUE YOU WANT FROM THE PREVIOUS ROW.
+OFFSET: HOW MANY ROWS BACK TO LOOK. DEFAULTS TO 1.
+DEFAULT_VALUE: THE VALUE TO RETURN IF THERE IS NO PREVIOUS ROW. DEFAULTS TO NULL.
+OVER (PARTITION BY ...) SPECIFIES HOW THE DATA IS PARTITIONED AND SORTED.
+
+
+
+-> THE LEAD() FUNCTION IS USED TO GET THE VALUE OF A COLUMN FROM THE NEXT ROW IN THE RESULT SET.
+
+LEAD(COLUMN_NAME, OFFSET, DEFAULT_VALUE) OVER (PARTITION BY COLUMN_NAME ORDER BY COLUMN_NAME)
+COLUMN_NAME: THE COLUMN WHOSE VALUE YOU WANT FROM THE NEXT ROW.
+OFFSET: HOW MANY ROWS AHEAD TO LOOK. DEFAULTS TO 1.
+DEFAULT_VALUE: THE VALUE TO RETURN IF THERE IS NO NEXT ROW. DEFAULTS TO NULL.
+OVER (PARTITION BY ...) SPECIFIES HOW THE DATA IS PARTITIONED AND SORTED.
+
+
+
+THE OVER CLAUSE IS REQUIRED WHEN USING THE LAG() FUNCTION IN MYSQL.
+ORDER BY INSIDE THE OVER CLAUSE IS ALSO REQUIRED TO DEFINE THE ROW ORDER.
+PARTITION BY IS OPTIONAL, AND IF YOU DON'T NEED PARTITIONING, YOU CAN LEAVE IT OUT, BUT YOU MUST STILL USE ORDER BY.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DATE AND TIME FUNCTIONS : 
+_________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
