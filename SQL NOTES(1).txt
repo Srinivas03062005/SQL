@@ -2102,7 +2102,7 @@ DENSE_RANK() OVER (ORDER BY salary DESC) AS rownum from employee) temptable WHER
 
 ___________________________________________________________________________________________________________________________________________________________________________________________
  
-!=    AND     NOT IN    🔥
+->  !=  AND  NOT IN🔥
 
 IMP TIPS & TRICKS 
 _________________
@@ -2111,9 +2111,11 @@ _________________
 -> THE ( IS NULL ) COMMAND IS USED TO TEST FOR EMPTY VALUES (NULL VALUES).
 -> THE ( IS NOT NULL ) COMMAND IS USED TO TEST FOR NON-EMPTY VALUES (NOT NULL values).
 -> REPLACE(STRING, OLD_SUBSTRING, NEW_SUBSTRING)
-
-
-
+-> ROUND(NUMBER, DECIMALS)
+-> * MULTIPLICATION
+-> / DIVISION
+-> UNION(NO DUPLI)    AND     UNION ALL(DUPLI)
+-> NULL IS UNKNOWN VALUE
 
 
 -> THE DIFFERENCE BETWEEN ISNULL AND IFNULL
@@ -2171,6 +2173,38 @@ SUBSTRING   :
              LENGTH IN OPTIONAL
 CONCATENATE : 
              CONCAT(STRING1, STRING2, ...)
+
+
+
+-> MOD FUNCTION
+   MOD(X, Y)
+   SELECT MOD(10, 3);
+   OUTPUT : 1
+
+
+-> COALESCE() FUNCTION 
+   THE COALESCE() FUNCTION RETURNS THE FIRST NON-NULL VALUE IN THE LIST OF ARGUMENTS PROVIDED. IF ALL ARGUMENTS ARE NULL, IT WILL RETURN NULL.
+   COALESCE(value1, value2, ..., valueN)
+   
+-> IF()
+   SELECT IF(1 = 1, 'True', 'False');  -- Returns 'True'
+   SELECT IF(1 = 2, 'True', 'False');  -- Returns 'False'
+
+-> GREATEST()
+   USAGE: RETURNS THE LARGEST VALUE FROM A LIST OF EXPRESSIONS. IT RETURNS NULL IF ANY EXPRESSION IS NULL.
+   SELECT GREATEST(10, 20, 5);  -- Returns 20
+   SELECT GREATEST(NULL, 10, 20);  -- Returns NULL
+
+-> LEAST()
+   USAGE: RETURNS THE SMALLEST VALUE FROM A LIST OF EXPRESSIONS. IT RETURNS NULL IF ANY EXPRESSION IS NULL.
+   SELECT LEAST(10, 20, 5);     -- Returns 5
+   SELECT LEAST(NULL, 10, 20);  -- Returns NULL
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2887,11 +2921,951 @@ PARTITION BY IS OPTIONAL, AND IF YOU DON'T NEED PARTITIONING, YOU CAN LEAVE IT O
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-DATE AND TIME FUNCTIONS : 
-_________________________
--------------------------
+20 DATE AND TIME FUNCTIONS : 
+____________________________
 
 
+-> select current_timestamp();   -> IT GIVES  BOTH TIME AND DATE 
++---------------------+
+| current_timestamp() |
++---------------------+
+| 2025-01-03 14:02:36 |
++---------------------+
+
+-> select now();                 -> IT GIVES  BOTH TIME AND DATE 
++---------------------+
+| now()               |
++---------------------+
+| 2025-01-03 14:02:36 |
++---------------------+
+
+-> select current_date();        -> IT GIVES THE DATE 
++----------------+
+| current_date() |
++----------------+
+| 2025-01-03     |
++----------------+
+
+-> select current_time();        -> IT GIVES THE TIME
++----------------+
+| current_time() |
++----------------+
+| 14:04:00       |
++----------------+
+
+
+-> DATE() FUNCTION
+   THE DATE() FUNCTION IS USED TO EXTRACT THE DATE PART FROM A DATETIME VALUE. 
+   IT STRIPS THE TIME PORTION AND RETURNS ONLY THE DATE (IN YYYY-MM-DD FORMAT).
+   
+   SYNTAX : DATE(DATETIME_VALUE)
+
+   EXAMPLE : 
+   SELECT DATE('2025-01-04 14:30:00') AS ONLY_DATE;
+   OUTPUT :
++------------+
+| ONLY_DATE  |
++------------+
+| 2025-01-04 |
++------------+
+
+   SELECT DATE(NOW()) AS ONLY_DATE;
+   OUTPUT : 
++------------+
+| ONLY_DATE  |
++------------+
+| 2025-01-04 |
++------------+
+
+
+
+-> CAST() FUNCTION WITH AS DATE
+   SYNTAX : CAST(VALUE AS DATE)
+   EXAMPLE : 
+   SELECT CAST(NOW() AS DATE) AS ONLY_DATE;
+   OUTPUT : 
++------------+
+| ONLY_DATE  |
++------------+
+| 2025-01-04 |
++------------+
+
+
+-> DATE_FORMAT()
+   SELECT DATE_FORMAT(NOW(),'%D/%M/%Y') as DATE;
++------------------+
+| DATE             |
++------------------+
+| 4th/January/2025 |
++------------------+
+   SELECT DATE_FORMAT(NOW(),'%M/%D/%Y') as DATE;
++------------------+
+| DATE             |
++------------------+
+| January/4th/2025 |
++------------------+
+   SELECT DATE_FORMAT(NOW(),'%d/%m/%y') as DATE;
++----------+
+| DATE     |
++----------+
+| 04/01/25 |
++----------+
+   SELECT DATE_FORMAT(NOW(),'%M-%D-%Y') as DATE;
++------------------+
+| DATE             |
++------------------+
+| January-4th-2025 |
++------------------+
+
+
+-> DATEDIFF()
+   SELECT DATEDIFF('2025-01-04','2025-01-01') as NO_OF_DAYS
+   ENDDATE - STARTDATE SO +VE
++------------+
+| NO_OF_DAYS |
++------------+
+|          3 |
++------------+
+
+   SELECT DATEDIFF('2025-01-01','2025-01-04') as NO_OF_DAYS
+   STARTDATE - ENDDATE SO -VE
++------------+
+| NO_OF_DAYS |
++------------+
+|         -3 |
++------------+
+
+
+-> DATE_ADD()
+   
+   SELECT NOW(),DATE_ADD(NOW(),interval 1 day) as DATE;
++---------------------+---------------------+
+| NOW()               | DATE                |
++---------------------+---------------------+
+| 2025-01-04 05:21:45 | 2025-01-05 05:21:45 |
++---------------------+---------------------+
+   SELECT NOW(),DATE_ADD(NOW(),interval 1 month) as DATE;
++---------------------+---------------------+
+| NOW()               | DATE                |
++---------------------+---------------------+
+| 2025-01-04 05:21:45 | 2025-02-04 05:21:45 |
++---------------------+---------------------+
+   SELECT NOW(),DATE_ADD(NOW(),interval 1 year) as DATE;
++---------------------+---------------------+
+| NOW()               | DATE                |
++---------------------+---------------------+
+| 2025-01-04 05:21:45 | 2026-01-04 05:21:45 |
++---------------------+---------------------+
+   SELECT NOW(),DATE_ADD(NOW(),interval 1 hour) as DATE;
++---------------------+---------------------+
+| NOW()               | DATE                |
++---------------------+---------------------+
+| 2025-01-04 05:22:59 | 2025-01-04 06:22:59 |
++---------------------+---------------------+
+
+
+-> DATE_SUB()
+   OPPOSITE TO DATE_ADD()
+
+-> DAY()
+   SELECT NOW(),DAY(NOW()) as DAY;
++---------------------+------+
+| NOW()               | DAY  |
++---------------------+------+
+| 2025-01-04 05:25:13 |    4 |
++---------------------+------+
+
+-> MONTH()
+   SELECT NOW(),MONTH(NOW()) as DAY;
++---------------------+------+
+| NOW()               | DAY  |
++---------------------+------+
+| 2025-01-04 05:26:14 |    1 |
++---------------------+------+
+
+-> YEAR()
+   SELECT NOW(),YEAR(NOW()) as DAY;
++---------------------+------+
+| NOW()               | DAY  |
++---------------------+------+
+| 2025-01-04 05:27:19 | 2025 |
++---------------------+------+
+
+
+-> DAYOFWEEK()
+SUNDAY    1
+MONDAY    2
+TUESDAY   3
+WEDNESDAY 4
+THURSDAY  5
+FRIDAY    6
+SATURDAY  7
+SELECT DAYOFWEEK('2025-01-04') AS DAY_OF_WEEK;
++-------------+
+| DAY_OF_WEEK |
++-------------+
+|           7 |
++-------------+
+
+
+-> DAYOFYEAR()
+RETURNS THE DAY OF THE YEAR FOR A GIVEN DATE, WHERE 1 REPRESENTS JANUARY 1ST AND 365 (OR 366) REPRESENTS DECEMBER 31ST.
+SELECT DAYOFYEAR('2025-01-01') AS DAY_OF_YEAR;
++-------------+
+| DAY_OF_YEAR |
++-------------+
+|           1 |
++-------------+
+
+
+-> DAYOFMONTH()
+RETURNS THE DAY OF THE MONTH FOR A GIVEN DATE, WHICH IS AN INTEGER BETWEEN 1 AND 31.
+SELECT DAYOFMONTH('2025-02-28') AS DAY_OF_MONTH;
++--------------+
+| DAY_OF_MONTH |
++--------------+
+|           28 |
++--------------+
+
+
+
+-> DAYNAME()
+THE DAYNAME() FUNCTION RETURNS NAMES IN ENGLISH (E.G., "MONDAY", "TUESDAY").
+SELECT DAYNAME('2025-01-04') AS DAY_NAME;
++----------+
+| DAY_NAME |
++----------+
+| Saturday |
++----------+
+
+
+-> STR_TO_DATE()
+   THE STR_TO_DATE() FUNCTION IN MYSQL IS USED TO CONVERT A STRING INTO A DATE OR DATETIME FORMAT BASED ON A SPECIFIED FORMAT STRING.
+
+SELECT STR_TO_DATE('2025-01-04', '%Y-%m-%d') AS CONVERTED_DATE;
++----------------+
+| CONVERTED_DATE |
++----------------+
+| 2025-01-04     |
++----------------+
+
+SELECT STR_TO_DATE('04-01-2025 14:30:45', '%d-%m-%Y %H:%i:%s') AS CONVERTED_DATETIME;
++---------------------+
+| CONVERTED_DATETIME  |
++---------------------+
+| 2025-01-04 14:30:45 |
++---------------------+
+
+
+-> TIMESTAMPDIFF()
+   TIMESTAMPDIFF(day,STARTDATE,ENDDATE) -> GIVES NO OF DAYS
+   TIMESTAMPDIFF(minute,STARTDATE,ENDDATE) -> GIVES NO OF MINUTES
+   TIMESTAMPDIFF(month,STARTDATE,ENDDATE) -> GIVES NO OF MONTHS
+
+
+-> LAST_DAY()
+   LAST_DAY(NOW()) -> GIVES LAST DAY OF THIS MONTH
+
+                    
+-> EXTRACT
+   EXTRACT(day from SOME_DATE)
+   EXTRACT(hour from SOME_DATE)
+   EXTRACT(month from SOME_DATE)
+   EXTRACT(year from SOME_DATE)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MOST IMP SQL JOIN QUESTIONS
+___________________________
+
+
+create table t1
+(
+  id1 int
+);
+insert into t1 values(1),(1);
+select * from t1;
++------+
+| id1  |
++------+
+|    1 |
+|    1 |
++------+  
+
+
+create table t2
+(
+  id2 int
+);
+insert into t2 values(1),(1),(1);
+select * from t2;
++------+
+| id2  |
++------+
+|    1 |
+|    1 |
+|    1 |
++------+
+
+select * from t1 inner join t2 on t1.id1 = t2.id2;
++------+------+
+| id1  | id2  |
++------+------+
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
++------+------+
+select * from t1 left join t2 on t1.id1 = t2.id2;
++------+------+
+| id1  | id2  |
++------+------+
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
++------+------+
+select * from t1 right join t2 on t1.id1 = t2.id2;
++------+------+
+| id1  | id2  |
++------+------+
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
+|    1 |    1 |
++------+------+
+======================================IMP=================================================================================================
+-> IN MYSQL THERE IS NO FULL KEYWORD SO WE USE UNION IF I DO UNION WE GET 1 RECORD ONLY
+   BCZ IT REMOVES DUPLICATES AND IF I DO UNION ALL WE WILL GET TOTAL 12 RECORDS BECAUSE 
+   IT ACCEPTS DUPLICATES SO LEFT(6) AND RIGHT(6) TOTAL 12
+   * -> BUT IF FULL KEYWORD WORKS THEN WE WILL GET 6 RECORDS 
+        BCZ ACCORDING TO FULL JOIN DEFINITION ALL THE MATCHING RECORDS + NON-MATCHING RECORDS FROM LEFT + NON-MATCHING RECORDS FROM RIGHT
+        HERE ALL ARE MATCHING THERE IS NO NON-MATCHING RECORDS SO WE WILL GET 6
+======================================IMP=================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+SIMPLE AND TRICKY SQL QUESTION -> RANK ONLY DUPLICATES
+______________________________________________________
+
+ID           OUTPUT 
+A             DUP1
+A             DUP1
+B             NULL
+C             DUP2
+C             DUP2
+C             DUP2
+D             DUP3
+D             DUP3
+E             NULL
+
+create table srinivas
+(
+  id varchar(10)
+);
+insert into srinivas values('A'),('A'),('B'),('C'),('C'),('C'),('D'),('D'),('E');
+select * from srinivas;
++------+
+| id   |
++------+
+| A    |
+| A    |
+| B    |
+| C    |
+| C    |
+| C    |
+| D    |
+| D    |
+| E    |
++------+
+select id from srinivas group by id having count(*) > 1;
++------+
+| id   |
++------+
+| A    |
+| C    |
+| D    |
++------+
+with cte_dups as (select id from srinivas group by id having count(*) > 1)
+select *,rank() over (order by id asc) as rn from cte_dups;
++------+----+
+| id   | rn |
++------+----+
+| A    |  1 |
+| C    |  2 |
+| D    |  3 |
++------+----+
+
+ 
+with cte_dups as (select id from srinivas group by id having count(*) > 1)
+,cte_rank as (select *,rank() over (order by id asc) as rn from cte_dups)
+select srinivas.id,cte_rank.rn from srinivas left join cte_rank on srinivas.id = cte_rank.id;
++------+------+
+| id   | rn   |
++------+------+
+| A    |    1 |
+| A    |    1 |
+| B    | NULL |
+| C    |    2 |
+| C    |    2 |
+| C    |    2 |
+| D    |    3 |
+| D    |    3 |
+| E    | NULL |
++------+------+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PROBLEM WITH RUNNING SUM IN SQL
+_______________________________
+
+
+create table srinivas
+(
+ product_id varchar(20),
+ cost int
+);
+insert into srinivas values('P1',200),('P2',300),('P3',300),('P4',500),('P5',800);
+select * from srinivas;
++------------+------+
+| product_id | cost |
++------------+------+
+| P1         |  200 |
+| P2         |  300 |
+| P3         |  300 |
+| P4         |  500 |
+| P5         |  800 |
++------------+------+
+select *,sum(cost) over(order by cost) as running_cost from srinivas;
++------------+------+--------------+
+| product_id | cost | running_cost |
++------------+------+--------------+
+| P1         |  200 |          200 |
+| P2         |  300 |          800 |
+| P3         |  300 |          800 |
+| P4         |  500 |         1300 |
+| P5         |  800 |         2100 |
++------------+------+--------------+
+-> IN PLACE OF 500 WE ARE GETTING 800
+
+
+select *,sum(cost) over(order by cost,roduct_id) as running_cost from srinivas;
++------------+------+--------------+
+| product_id | cost | running_cost |
++------------+------+--------------+
+| P1         |  200 |          200 |
+| P2         |  300 |          500 |
+| P3         |  300 |          800 |
+| P4         |  500 |         1300 |
+| P5         |  800 |         2100 |
++------------+------+--------------+
+
+
+select *,sum(cost) over(order by cost rows between unbounded preceding and current row) as running_cost from srinivas;
++------------+------+--------------+
+| product_id | cost | running_cost |
++------------+------+--------------+
+| P1         |  200 |          200 |
+| P2         |  300 |          500 |
+| P3         |  300 |          800 |
+| P4         |  500 |         1300 |
+| P5         |  800 |         2100 |
++------------+------+--------------+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+AIRBNB SQL INTERVIEW QUESTION | CONVERT COMMA SEPARATED VALUES INTO ROWS 
+________________________________________________________________________
+
+Q)
+
+create table airbnb_searches 
+(
+user_id int,
+date_searched date,
+filter_room_types varchar(200)
+);
+insert into airbnb_searches values
+(1,'2022-01-01','entire home,private room')
+,(2,'2022-01-02','entire home,shared room')
+,(3,'2022-01-02','private room,shared room')
+,(4,'2022-01-03','private room');
+
+select * from airbnb_searches;
+
++---------+---------------+--------------------------+
+| user_id | date_searched | filter_room_types        |
++---------+---------------+--------------------------+
+|       1 | 2022-01-01    | entire home,private room |
+|       2 | 2022-01-02    | entire home,shared room  |
+|       3 | 2022-01-02    | private room,shared room |
+|       4 | 2022-01-03    | private room             |
++---------+---------------+--------------------------+
+
+
+
++--------------+-----+
+| value        | cnt |
++--------------+-----+
+| private room |   3 |
+| entire home  |   2 |
+| shared room  |   2 |
++--------------+-----+
+
+
+
+
+A) LOADING.........................
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+UPDATE STATEMENT 
+----------------
+
+------------------------------------------------------------------------------
+CREATE TABLE emp 
+(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary INT,
+    manager_id INT,
+    emp_age INT,
+    dep_id INT
+);
+
+INSERT INTO emp (emp_id, emp_name, salary, manager_id, emp_age, dep_id)
+VALUES
+(1, 'Ankit', 13000, 4, 39, 100),
+(2, 'Mohit', 13000, 5, 48, 100),
+(3, 'Vikas', 11000, 4, 37, 100),
+(4, 'Rohit', 6600, 2, 16, 100),
+(5, 'Mudit', 13000, 6, 55, 200),
+(6, 'Agam', 13000, 2, 14, 200),
+(7, 'Sanjay', 10000, 2, 13, 200),
+(8, 'Ashish', 6000, 2, 12, 200),
+(9, 'Mukesh', 7000, 6, 51, 300),
+(10, 'Rakesh', 8000, 6, 50, 300),
+(11, 'Akhil', 4000, 1, 31, 500);
+
+
+
+
+
+CREATE TABLE dept 
+(
+    dep_id INT PRIMARY KEY,
+    dep_name VARCHAR(50)
+);
+
+INSERT INTO dept (dep_id, dep_name) 
+VALUES
+(100, 'Analytics'),
+(200, 'IT'),
+(300, 'HR'),
+(400, 'Text Analytics');
+-----------------------------------------------------------------------------
+
+update emp set salary = 
+case 
+when dep_id = 100 then salary*1.1 
+when dep_id = 200 then salary*1.2 
+else salary 
+end;
+select * from emp;
+
++--------+----------+--------+------------+---------+--------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id |
++--------+----------+--------+------------+---------+--------+
+|      1 | Ankit    |  14300 |          4 |      39 |    100 |
+|      2 | Mohit    |  14300 |          5 |      48 |    100 |
+|      3 | Vikas    |  12100 |          4 |      37 |    100 |
+|      4 | Rohit    |   7260 |          2 |      16 |    100 |
+|      5 | Mudit    |  15600 |          6 |      55 |    200 |
+|      6 | Agam     |  15600 |          2 |      14 |    200 |
+|      7 | Sanjay   |  12000 |          2 |      13 |    200 |
+|      8 | Ashish   |   7200 |          2 |      12 |    200 |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 |
++--------+----------+--------+------------+---------+--------+
+
+
+alter table emp add dep_name varchar(20);
+select * from emp;
++--------+----------+--------+------------+---------+--------+----------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | dep_name |
++--------+----------+--------+------------+---------+--------+----------+
+|      1 | Ankit    |  14300 |          4 |      39 |    100 | NULL     |
+|      2 | Mohit    |  14300 |          5 |      48 |    100 | NULL     |
+|      3 | Vikas    |  12100 |          4 |      37 |    100 | NULL     |
+|      4 | Rohit    |   7260 |          2 |      16 |    100 | NULL     |
+|      5 | Mudit    |  15600 |          6 |      55 |    200 | NULL     |
+|      6 | Agam     |  15600 |          2 |      14 |    200 | NULL     |
+|      7 | Sanjay   |  12000 |          2 |      13 |    200 | NULL     |
+|      8 | Ashish   |   7200 |          2 |      12 |    200 | NULL     |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | NULL     |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | NULL     |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | NULL     |
++--------+----------+--------+------------+---------+--------+----------+
+
+
+
+UPDATE emp e
+INNER JOIN dept d ON e.dep_id = d.dep_id
+SET e.dep_name = d.dep_name;
+select * from emp;
++--------+----------+--------+------------+---------+--------+-----------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | dep_name  |
++--------+----------+--------+------------+---------+--------+-----------+
+|      1 | Ankit    |  14300 |          4 |      39 |    100 | Analytics |
+|      2 | Mohit    |  14300 |          5 |      48 |    100 | Analytics |
+|      3 | Vikas    |  12100 |          4 |      37 |    100 | Analytics |
+|      4 | Rohit    |   7260 |          2 |      16 |    100 | Analytics |
+|      5 | Mudit    |  15600 |          6 |      55 |    200 | IT        |
+|      6 | Agam     |  15600 |          2 |      14 |    200 | IT        |
+|      7 | Sanjay   |  12000 |          2 |      13 |    200 | IT        |
+|      8 | Ashish   |   7200 |          2 |      12 |    200 | IT        |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | HR        |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | HR        |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | NULL      |
++--------+----------+--------+------------+---------+--------+-----------+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+FIRST_VALUE AND LAST_VALUE SQL WINDOW FUNCTIONS
+-----------------------------------------------
+
+CREATE TABLE emp 
+(
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary INT,
+    manager_id INT,
+    emp_age INT,
+    dep_id INT
+);
+
+INSERT INTO emp (emp_id, emp_name, salary, manager_id, emp_age, dep_id)
+VALUES
+(1, 'Ankit', 13000, 4, 39, 100),
+(2, 'Mohit', 13000, 5, 48, 100),
+(3, 'Vikas', 11000, 4, 37, 100),
+(4, 'Rohit', 6600, 2, 16, 100),
+(5, 'Mudit', 13000, 6, 55, 200),
+(6, 'Agam', 13000, 2, 14, 200),
+(7, 'Sanjay', 10000, 2, 13, 200),
+(8, 'Ashish', 6000, 2, 12, 200),
+(9, 'Mukesh', 7000, 6, 51, 300),
+(10, 'Rakesh', 8000, 6, 50, 300),
+(11, 'Akhil', 4000, 1, 31, 500);
+
+select *,first_value(emp_name) over(order by salary) as lowest_sale_emp from emp;
++--------+----------+--------+------------+---------+--------+-----------------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | lowest_sale_emp |
++--------+----------+--------+------------+---------+--------+-----------------+
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | Akhil           |
+|      8 | Ashish   |   6000 |          2 |      12 |    200 | Akhil           |
+|      4 | Rohit    |   6600 |          2 |      16 |    100 | Akhil           |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | Akhil           |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | Akhil           |
+|      7 | Sanjay   |  10000 |          2 |      13 |    200 | Akhil           |
+|      3 | Vikas    |  11000 |          4 |      37 |    100 | Akhil           |
+|      1 | Ankit    |  13000 |          4 |      39 |    100 | Akhil           |
+|      2 | Mohit    |  13000 |          5 |      48 |    100 | Akhil           |
+|      5 | Mudit    |  13000 |          6 |      55 |    200 | Akhil           |
+|      6 | Agam     |  13000 |          2 |      14 |    200 | Akhil           |
++--------+----------+--------+------------+---------+--------+-----------------+
+
+
+select *,first_value(emp_name) over(partition by dep_id order by emp_age) as youngest_emp_frm_each_grp from emp;
++--------+----------+--------+------------+---------+--------+---------------------------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | youngest_emp_frm_each_grp |
++--------+----------+--------+------------+---------+--------+---------------------------+
+|      4 | Rohit    |   6600 |          2 |      16 |    100 | Rohit                     |
+|      3 | Vikas    |  11000 |          4 |      37 |    100 | Rohit                     |
+|      1 | Ankit    |  13000 |          4 |      39 |    100 | Rohit                     |
+|      2 | Mohit    |  13000 |          5 |      48 |    100 | Rohit                     |
+|      8 | Ashish   |   6000 |          2 |      12 |    200 | Ashish                    |
+|      7 | Sanjay   |  10000 |          2 |      13 |    200 | Ashish                    |
+|      6 | Agam     |  13000 |          2 |      14 |    200 | Ashish                    |
+|      5 | Mudit    |  13000 |          6 |      55 |    200 | Ashish                    |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | Rakesh                    |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | Rakesh                    |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | Akhil                     |
++--------+----------+--------+------------+---------+--------+---------------------------+
+
+
+
+
+BEHAVIOR OF LAST_VALUE :-
+THE LAST_VALUE FUNCTION RETRIEVES THE VALUE OF THE LAST ROW IN THE CURRENT FRAME.
+WITH THE DEFAULT FRAME (RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), THE "LAST VALUE" IS ALWAYS THE VALUE OF THE CURRENT ROW, NOT THE LAST VALUE IN THE ENTIRE PARTITION.
+
+
+
+select *,last_value(emp_name) over(order by emp_age) as oldest_emp from emp;
++--------+----------+--------+------------+---------+--------+------------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | oldest_emp |
++--------+----------+--------+------------+---------+--------+------------+
+|      8 | Ashish   |   6000 |          2 |      12 |    200 | Ashish     |
+|      7 | Sanjay   |  10000 |          2 |      13 |    200 | Sanjay     |
+|      6 | Agam     |  13000 |          2 |      14 |    200 | Agam       |
+|      4 | Rohit    |   6600 |          2 |      16 |    100 | Rohit      |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | Akhil      |
+|      3 | Vikas    |  11000 |          4 |      37 |    100 | Vikas      |
+|      1 | Ankit    |  13000 |          4 |      39 |    100 | Ankit      |
+|      2 | Mohit    |  13000 |          5 |      48 |    100 | Mohit      |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | Rakesh     |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | Mukesh     |
+|      5 | Mudit    |  13000 |          6 |      55 |    200 | Mudit      |
++--------+----------+--------+------------+---------+--------+------------+
+
+
+
+select *,last_value(emp_name) over(partition by dep_id order by emp_age) from emp;
++--------+----------+--------+------------+---------+--------+-----------------------------------------------------------------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | last_value(emp_name) over(partition by dep_id order by emp_age) |
++--------+----------+--------+------------+---------+--------+-----------------------------------------------------------------+
+|      4 | Rohit    |   6600 |          2 |      16 |    100 | Rohit                                                           |
+|      3 | Vikas    |  11000 |          4 |      37 |    100 | Vikas                                                           |
+|      1 | Ankit    |  13000 |          4 |      39 |    100 | Ankit                                                           |
+|      2 | Mohit    |  13000 |          5 |      48 |    100 | Mohit                                                           |
+|      8 | Ashish   |   6000 |          2 |      12 |    200 | Ashish                                                          |
+|      7 | Sanjay   |  10000 |          2 |      13 |    200 | Sanjay                                                          |
+|      6 | Agam     |  13000 |          2 |      14 |    200 | Agam                                                            |
+|      5 | Mudit    |  13000 |          6 |      55 |    200 | Mudit                                                           |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | Rakesh                                                          |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | Mukesh                                                          |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | Akhil                                                           |
++--------+----------+--------+------------+---------+--------+-----------------------------------------------------------------+
+
+
+
+select *,last_value(emp_name) over(order by emp_age rows between current row  and unbounded following) as oldest_emp from emp;
++--------+----------+--------+------------+---------+--------+------------+
+| emp_id | emp_name | salary | manager_id | emp_age | dep_id | oldest_emp |
++--------+----------+--------+------------+---------+--------+------------+
+|      8 | Ashish   |   6000 |          2 |      12 |    200 | Mudit      |
+|      7 | Sanjay   |  10000 |          2 |      13 |    200 | Mudit      |
+|      6 | Agam     |  13000 |          2 |      14 |    200 | Mudit      |
+|      4 | Rohit    |   6600 |          2 |      16 |    100 | Mudit      |
+|     11 | Akhil    |   4000 |          1 |      31 |    500 | Mudit      |
+|      3 | Vikas    |  11000 |          4 |      37 |    100 | Mudit      |
+|      1 | Ankit    |  13000 |          4 |      39 |    100 | Mudit      |
+|      2 | Mohit    |  13000 |          5 |      48 |    100 | Mudit      |
+|     10 | Rakesh   |   8000 |          6 |      50 |    300 | Mudit      |
+|      9 | Mukesh   |   7000 |          6 |      51 |    300 | Mudit      |
+|      5 | Mudit    |  13000 |          6 |      55 |    200 | Mudit      |
++--------+----------+--------+------------+---------+--------+------------+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+INDEPENDENT VS CORRELATED SUBQUERY
+----------------------------------
+
+CREATE TABLE emp 
+(
+    emp_id INT,
+    emp_name VARCHAR(20),
+    dept_id INT,
+    salary INT,
+    manager_id INT,
+    emp_age INT
+);
+
+INSERT INTO emp VALUES (1, 'Ankit', 100, 10000, 4, 39);
+INSERT INTO emp VALUES (2, 'Mohit', 100, 15000, 5, 48);
+INSERT INTO emp VALUES (3, 'Vikas', 100, 10000, 4, 37);
+INSERT INTO emp VALUES (4, 'Rohit', 100, 5000, 2, 16);
+INSERT INTO emp VALUES (5, 'Mudit', 200, 12000, 6, 55);
+INSERT INTO emp VALUES (6, 'Agam', 200, 12000, 2, 14);
+INSERT INTO emp VALUES (7, 'Sanjay', 200, 9000, 2, 13);
+INSERT INTO emp VALUES (8, 'Ashish', 200, 5000, 2, 12);
+INSERT INTO emp VALUES (9, 'Mukesh', 300, 6000, 6, 51);
+INSERT INTO emp VALUES (10, 'Rakesh', 300, 7000, 6, 50);
+
+SELECT * FROM emp;
++--------+----------+---------+--------+------------+---------+
+| emp_id | emp_name | dept_id | salary | manager_id | emp_age |
++--------+----------+---------+--------+------------+---------+
+|      1 | Ankit    |     100 |  10000 |          4 |      39 |
+|      2 | Mohit    |     100 |  15000 |          5 |      48 |
+|      3 | Vikas    |     100 |  10000 |          4 |      37 |
+|      4 | Rohit    |     100 |   5000 |          2 |      16 |
+|      5 | Mudit    |     200 |  12000 |          6 |      55 |
+|      6 | Agam     |     200 |  12000 |          2 |      14 |
+|      7 | Sanjay   |     200 |   9000 |          2 |      13 |
+|      8 | Ashish   |     200 |   5000 |          2 |      12 |
+|      9 | Mukesh   |     300 |   6000 |          6 |      51 |
+|     10 | Rakesh   |     300 |   7000 |          6 |      50 |
++--------+----------+---------+--------+------------+---------+
+
+Q) WRITE A SQL TO PRINT EMPLOYEE DETAILS WHO'S SALARY IS MORE THAN THEIR DEPARTMENT AVG SALARY
+
+ANS) 
+
+INDEPENDENT 
+-----------
+select e.*,d.avg_dep_salary
+from emp e
+inner join
+(select dept_id,avg(salary) as avg_dep_salary
+from emp
+group by dept_id) d on e.dept_id = d.dept_id
+where e.salary>d.avg_dep_salary
+
+
++--------+----------+---------+--------+------------+---------+----------------+
+| emp_id | emp_name | dept_id | salary | manager_id | emp_age | avg_dep_salary |
++--------+----------+---------+--------+------------+---------+----------------+
+|      2 | Mohit    |     100 |  15000 |          5 |      48 |     10000.0000 |
+|      5 | Mudit    |     200 |  12000 |          6 |      55 |      9500.0000 |
+|      6 | Agam     |     200 |  12000 |          2 |      14 |      9500.0000 |
+|     10 | Rakesh   |     300 |   7000 |          6 |      50 |      6500.0000 |
++--------+----------+---------+--------+------------+---------+----------------+
+
+-> WE CAN RUN IT INDEPENDENTLY
+-> IT RUNS ONLY ONCE
+
+CORRELATED
+----------
+
+select * 
+from emp e1
+where salary > (select avg(e2.salary) from emp e2 where e1.dept_id = e2.dept_id)
+
+
++--------+----------+---------+--------+------------+---------+
+| emp_id | emp_name | dept_id | salary | manager_id | emp_age |
++--------+----------+---------+--------+------------+---------+
+|      2 | Mohit    |     100 |  15000 |          5 |      48 |
+|      5 | Mudit    |     200 |  12000 |          6 |      55 |
+|      6 | Agam     |     200 |  12000 |          2 |      14 |
+|     10 | Rakesh   |     300 |   7000 |          6 |      50 |
++--------+----------+---------+--------+------------+---------+
+
+-> WE CANNOT RUN IT INDEPENDENTLY
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+ROLLUP,CUBE AND GROUPING SETS
+-----------------------------
+
+->ROLLUP IS SUPPORTED BY MYSQL
+->CUBE IS NOT SUPPORTED BY MYSQL
+->GROUPING SETS IS NOT SUPPORTED BY MYSQL
+
+
+
+Create table orders
+(
+    Id int primary key,
+    Continent varchar(50),
+    Country varchar(50),
+    City varchar(50),
+    amount int
+);
+Insert into orders values(1,'Asia','India','Bangalore',1000);
+Insert into orders values(2,'Asia','India','Chennai',2000);
+Insert into orders values(3,'Asia','Japan','Tokyo',4000);
+Insert into orders values(4,'Asia','Japan','Hiroshima',5000);
+Insert into orders values(5,'Europe','United Kingdom','London',1000);
+Insert into orders values(6,'Europe','United Kingdom','Manchester',2000);
+Insert into orders values(7,'Europe','France','Paris',4000);
+Insert into orders values(8,'Europe','France','Cannes',5000);
+
+select * from orders;
++----+-----------+----------------+------------+--------+
+| Id | Continent | Country        | City       | amount |
++----+-----------+----------------+------------+--------+
+|  1 | Asia      | India          | Bangalore  |   1000 |
+|  2 | Asia      | India          | Chennai    |   2000 |
+|  3 | Asia      | Japan          | Tokyo      |   4000 |
+|  4 | Asia      | Japan          | Hiroshima  |   5000 |
+|  5 | Europe    | United Kingdom | London     |   1000 |
+|  6 | Europe    | United Kingdom | Manchester |   2000 |
+|  7 | Europe    | France         | Paris      |   4000 |
+|  8 | Europe    | France         | Cannes     |   5000 |
++----+-----------+----------------+------------+--------+
+
+
+
+select Continent, Country, City, sum(amount) as total_amount
+from orders
+group by Continent, Country, City
+union all
+select Continent, null Country, null City, sum(amount) as total_amount
+from orders
+group by Continent
+union all
+select Continent, Country, null City, sum(amount) as total_amount
+from orders
+group by Continent, Country
+union all
+select null Continent, null Country, null City, sum(amount) as total_amount
+from orders
++-----------+----------------+------------+--------------+
+| Continent | Country        | City       | total_amount |
++-----------+----------------+------------+--------------+
+| Asia      | India          | Bangalore  |         1000 |
+| Asia      | India          | Chennai    |         2000 |
+| Asia      | Japan          | Tokyo      |         4000 |
+| Asia      | Japan          | Hiroshima  |         5000 |
+| Europe    | United Kingdom | London     |         1000 |
+| Europe    | United Kingdom | Manchester |         2000 |
+| Europe    | France         | Paris      |         4000 |
+| Europe    | France         | Cannes     |         5000 |
+| Asia      | NULL           | NULL       |        12000 |
+| Europe    | NULL           | NULL       |        12000 |
+| Asia      | India          | NULL       |         3000 |
+| Asia      | Japan          | NULL       |         9000 |
+| Europe    | United Kingdom | NULL       |         3000 |
+| Europe    | France         | NULL       |         9000 |
+| NULL      | NULL           | NULL       |        24000 |
++-----------+----------------+------------+--------------+
+
+
+
+
+
+ROLLUP
+------
+
+SELECT Continent, Country, City, sum(amount) as total_amount
+from orders
+GROUP BY Continent, Country, City WITH ROLLUP;
++-----------+----------------+------------+--------------+
+| Continent | Country        | City       | total_amount |
++-----------+----------------+------------+--------------+
+| Asia      | India          | Bangalore  |         1000 |
+| Asia      | India          | Chennai    |         2000 |
+| Asia      | India          | NULL       |         3000 |
+| Asia      | Japan          | Hiroshima  |         5000 |
+| Asia      | Japan          | Tokyo      |         4000 |
+| Asia      | Japan          | NULL       |         9000 |
+| Asia      | NULL           | NULL       |        12000 |
+| Europe    | France         | Cannes     |         5000 |
+| Europe    | France         | Paris      |         4000 |
+| Europe    | France         | NULL       |         9000 |
+| Europe    | United Kingdom | London     |         1000 |
+| Europe    | United Kingdom | Manchester |         2000 |
+| Europe    | United Kingdom | NULL       |         3000 |
+| Europe    | NULL           | NULL       |        12000 |
+| NULL      | NULL           | NULL       |        24000 |
++-----------+----------------+------------+--------------+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
